@@ -1,33 +1,33 @@
-import { ErrorMessage } from "@hookform/error-message"
-import { useCheckout } from "@lib/context/checkout-context"
-import Label from "@modules/account/components/form/Label"
-import ShippingAddress from "@modules/checkout/components/shipping-address"
-import Eye from "@modules/common/icons/eye"
-import EyeOff from "@modules/common/icons/eye-off"
-import clsx from "clsx"
-import React, { useEffect, useImperativeHandle, useState } from "react"
-import { get } from "react-hook-form"
+import { ErrorMessage } from "@hookform/error-message";
+import { useCheckout } from "@lib/context/checkout-context";
+import Label from "@modules/account/components/form/Label";
+import ShippingAddress from "@modules/checkout/components/shipping-address";
+import Eye from "@modules/common/icons/eye";
+import EyeOff from "@modules/common/icons/eye-off";
+import clsx from "clsx";
+import React, { useEffect, useImperativeHandle, useState } from "react";
+import { get } from "react-hook-form";
 
 type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
   "placeholder"
 > & {
-  label: string
-  errors?: Record<string, unknown>
-  touched?: Record<string, unknown>
-  name?: string
-  placeholder?: any
-  defaultValue?: any
-  disabled?: any
-  minLength?: any
-  maxLength?: any
-  errMsg?: any
-  regex?: any
-  errFor?: any
-  inputName?: any
-  handleValueChange?: any
-  setValue?: any
-}
+  label: string;
+  errors?: any;
+  touched?: Record<string, unknown>;
+  name?: string;
+  placeholder?: any;
+  defaultValue?: any;
+  disabled?: any;
+  minLength?: any;
+  maxLength?: any;
+  errMsg?: any;
+  regex?: any;
+  errFor?: any;
+  inputName?: any;
+  handleValueChange?: any;
+  setValue?: any;
+};
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
@@ -53,45 +53,45 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputRef = React.useRef<HTMLInputElement>(null)
-    const [showPassword, setShowPassword] = useState(false)
-    const [inputType, setInputType] = useState(type)
-    const [inputChar, setInputChar] = useState<any>("")
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [inputType, setInputType] = useState(type);
+    const [inputChar, setInputChar] = useState<any>("");
 
-    const { cart } = useCheckout()
+    const { cart } = useCheckout();
 
-    console.log("errCart", cart?.shipping_address)
+    console.log("errCart", cart?.shipping_address);
 
-    console.log("inputRef", inputRef?.current?.value)
-    console.log("inputChar", inputChar)
-    console.log("required", required)
-    console.log("props--->", props)
+    console.log("inputRef", inputRef?.current?.value);
+    console.log("inputChar", inputChar);
+    console.log("required", required);
+    console.log("props--->", props);
 
     useEffect(() => {
       // setInputChar(inputRef?.current?.value)
       // console.log("type", inputRef?.current?.value)
       if (type === "password" && showPassword) {
-        setInputType("text")
+        setInputType("text");
       }
 
       if (type === "password" && !showPassword) {
-        setInputType("password")
+        setInputType("password");
       }
-    }, [type, showPassword /* inputRef?.current?.value */])
+    }, [type, showPassword /* inputRef?.current?.value */]);
 
-    useImperativeHandle(ref, () => inputRef.current!)
+    useImperativeHandle(ref, () => inputRef.current!);
 
-    let hasError: any
+    let hasError: any;
 
     if (errors && name && touched) {
-      hasError = get(errors, name) && get(touched, name)
-      console.log("nameValue", name)
-      console.log("errors", errors.message)
-      console.log("touched", touched)
+      hasError = get(errors, name) && get(touched, name);
+      console.log("nameValue", name);
+      console.log("errors", errors.message);
+      console.log("touched", touched);
     }
 
-    console.log("inputType", inputType)
-    console.log("hasError", hasError)
+    console.log("inputType", inputType);
+    console.log("hasError", hasError);
 
     return (
       <div>
@@ -119,9 +119,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             onChange={(e) => {
               // handleValueChange(e)
 
-              console.log("typedValue", inputRef?.current?.value)
+              console.log("typedValue", inputRef?.current?.value);
               // console.log("eventValue", e.target.value)
-              setInputChar(inputRef?.current?.value)
+              setInputChar(inputRef?.current?.value);
             }}
           />
           {/* <label
@@ -214,11 +214,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           ""
         )}
       </div>
-    )
+    );
   }
-)
+);
 
-Input.displayName = "Input"
+Input.displayName = "Input";
 
-export default Input
+export default Input;
 // regex?.test(inputChar)
