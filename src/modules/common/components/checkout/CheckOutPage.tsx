@@ -2,43 +2,42 @@ import {
   CheckoutFormValues,
   CheckoutProvider,
   useCheckout,
-} from "@lib/context/checkout-context"
-import { useLoader } from "@lib/context/loader-context"
-import { usePaymentMethod } from "@lib/context/paymeny-method-context"
-import useEnrichedLineItems from "@lib/hooks/use-enrich-line-items"
-import { emailRegex } from "@lib/util/regex"
-import InputArea from "@modules/account/components/form/InputArea"
-import Label from "@modules/account/components/form/Label"
-import CartItem from "@modules/cart/CartItem"
-import CountrySelect from "@modules/checkout/components/country-select"
-import InputPayment from "@modules/checkout/components/form/InputPayment"
-import Payment from "@modules/checkout/components/payment"
-import PaymentButton from "@modules/checkout/components/payment-button"
-import Shipping from "@modules/checkout/components/shipping"
-import Button from "@modules/common/components/button"
-import ConnectForm from "@modules/common/components/connect-form"
-import Error from "@modules/common/components/form/Error"
-import Input from "@modules/common/components/input"
-import Layout from "@modules/layout/templates"
-import useCheckoutSubmit from "hooks/useCheckoutSubmit"
-import { useCart } from "medusa-react"
-import { ImCreditCard } from "react-icons/im"
+} from "@lib/context/checkout-context";
+import { useLoader } from "@lib/context/loader-context";
+import { usePaymentMethod } from "@lib/context/paymeny-method-context";
+import useEnrichedLineItems from "@lib/hooks/use-enrich-line-items";
+import { emailRegex } from "@lib/util/regex";
+import InputArea from "@modules/account/components/form/InputArea";
+import Label from "@modules/account/components/form/Label";
+import CartItem from "@modules/cart/CartItem";
+import CountrySelect from "@modules/checkout/components/country-select";
+import InputPayment from "@modules/checkout/components/form/InputPayment";
+import Payment from "@modules/checkout/components/payment";
+import PaymentButton from "@modules/checkout/components/payment-button";
+import Shipping from "@modules/checkout/components/shipping";
+import Button from "@modules/common/components/button";
+import ConnectForm from "@modules/common/components/connect-form";
+import Error from "@modules/common/components/form/Error";
+import Input from "@modules/common/components/input";
+import Layout from "@modules/layout/templates";
+import useCheckoutSubmit from "hooks/useCheckoutSubmit";
+import { useCart } from "medusa-react";
+import { ImCreditCard } from "react-icons/im";
 
-import Link from "next/link"
+import Link from "next/link";
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import {
   IoArrowForward,
   IoBagHandle,
   IoReturnUpBackOutline,
   IoWalletSharp,
-} from "react-icons/io5"
-import Loading from "../preloader/Loading"
-import SectionLoading from "../preloader/SectionLoading"
-import CartTotalSection from "./CartTotalSection"
-import ShippingPage from "./ShippingPage"
-import PaymentModal from "../modal/PaymentModal"
-import InputValidation from "../inputValidation"
+} from "react-icons/io5";
+import Loading from "../preloader/Loading";
+import SectionLoading from "../preloader/SectionLoading";
+import CartTotalSection from "./CartTotalSection";
+import ShippingPage from "./ShippingPage";
+import PaymentModal from "../modal/PaymentModal";
 
 const CheckOutPage = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -58,16 +57,16 @@ const CheckOutPage = () => {
     setPaymentSession,
     initPayment,
     cart,
-  } = useCheckout()
+  } = useCheckout();
 
-  const items: any = useEnrichedLineItems()
-  const { sectionLoader, sectionLoaderTwo } = useLoader()
-  const { setPaymentMethodGloble } = usePaymentMethod()
-  const [displayPaymentMethod, setDisplayPaymentMethod] = useState<any>(false)
-  const [paymentMethod, setPaymentMethod] = useState<any>(null)
+  const items: any = useEnrichedLineItems();
+  const { sectionLoader, sectionLoaderTwo } = useLoader();
+  const { setPaymentMethodGloble } = usePaymentMethod();
+  const [displayPaymentMethod, setDisplayPaymentMethod] = useState<any>(false);
+  const [paymentMethod, setPaymentMethod] = useState<any>(null);
   // console.log("displayPaymentMethod", setDisplayPaymentMethod)
-  const [showCard, setShowCard] = useState<any>(false)
-  const [modalOpen, setModalOpen] = useState<any>(false)
+  const [showCard, setShowCard] = useState<any>(false);
+  const [modalOpen, setModalOpen] = useState<any>(false);
   // const [value, setValue] = useState<any>({
   //   firstName: "",
   //   lastName: "",
@@ -75,43 +74,43 @@ const CheckOutPage = () => {
   const [err, setErr] = useState<any>({
     firstName: "",
     lastName: "",
-  })
-  console.log("boolean", isEdit)
-  console.log("cartCheck", cart)
+  });
+  console.log("boolean", isEdit);
+  console.log("cartCheck", cart);
 
   useEffect(() => {
-    console.log("paymentMethod", paymentMethod)
+    console.log("paymentMethod", paymentMethod);
     if (paymentMethod) {
-      setPaymentMethodGloble(paymentMethod)
+      setPaymentMethodGloble(paymentMethod);
     }
-  }, [paymentMethod])
+  }, [paymentMethod]);
 
-  console.log("setAddress", setAddresses)
+  console.log("setAddress", setAddresses);
 
   useEffect(() => {
-    console.log("cart.payment_sessions", cart?.payment_sessions)
-    let sessions: any = cart?.payment_sessions
-    let timeout: NodeJS.Timeout | null = null
+    console.log("cart.payment_sessions", cart?.payment_sessions);
+    let sessions: any = cart?.payment_sessions;
+    let timeout: NodeJS.Timeout | null = null;
 
     if (sessions?.length > 0) {
-      setPaymentSession(sessions[0].provider_id)
+      setPaymentSession(sessions[0].provider_id);
     }
 
     if (displayPaymentMethod) {
-      console.log("cart?.payment_sessions", cart?.payment_sessions)
+      console.log("cart?.payment_sessions", cart?.payment_sessions);
       if (cart?.shipping_address && cart?.payment_sessions) {
         timeout = setTimeout(() => {
-          initPayment()
-        }, 5000)
+          initPayment();
+        }, 5000);
       }
     }
 
     return () => {
       if (timeout) {
-        clearTimeout(timeout)
+        clearTimeout(timeout);
       }
-    }
-  }, [displayPaymentMethod])
+    };
+  }, [displayPaymentMethod]);
 
   // const handleValueChange = (e: any) => {
   //   console.log("targetedValue", e.target.name)
@@ -808,7 +807,7 @@ const CheckOutPage = () => {
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default CheckOutPage /* (() => Promise.resolve(Checkout), { ssr: false }); */
+export default CheckOutPage; /* (() => Promise.resolve(Checkout), { ssr: false }); */
