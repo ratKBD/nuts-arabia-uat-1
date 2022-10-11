@@ -1,7 +1,7 @@
-import { ErrorMessage } from "@hookform/error-message"
-import Label from "@modules/account/components/form/Label"
-import ChevronDown from "@modules/common/icons/chevron-down"
-import clsx from "clsx"
+import { ErrorMessage } from "@hookform/error-message";
+import Label from "@modules/account/components/form/Label";
+import ChevronDown from "@modules/common/icons/chevron-down";
+import clsx from "clsx";
 import {
   forwardRef,
   SelectHTMLAttributes,
@@ -9,14 +9,14 @@ import {
   useImperativeHandle,
   useRef,
   useState,
-} from "react"
-import { get } from "react-hook-form"
+} from "react";
+import { get } from "react-hook-form";
 
 export type NativeSelectProps = {
-  placeholder?: string
-  errors?: Record<string, unknown>
-  touched?: Record<string, unknown>
-} & SelectHTMLAttributes<HTMLSelectElement>
+  placeholder?: string;
+  errors?: any;
+  touched?: Record<string, unknown>;
+} & SelectHTMLAttributes<HTMLSelectElement>;
 
 // const styles = {
 //   select: {
@@ -38,41 +38,41 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     },
     ref
   ) => {
-    const innerRef = useRef<HTMLSelectElement>(null)
-    const [isPlaceholder, setIsPlaceholder] = useState(false)
-    const [borderColor, setBorderColor] = useState(false)
+    const innerRef = useRef<HTMLSelectElement>(null);
+    const [isPlaceholder, setIsPlaceholder] = useState(false);
+    const [borderColor, setBorderColor] = useState(false);
 
-    console.log("countryError", errors)
+    console.log("countryError", errors);
 
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
       () => innerRef.current
-    )
+    );
 
     const hasError = props.name
       ? get(errors, props.name) && get(touched, props.name)
-      : false
-    console.log("hasError", hasError)
+      : false;
+    console.log("hasError", hasError);
 
     useEffect(() => {
       if (innerRef.current && innerRef.current.value === "") {
-        setIsPlaceholder(true)
+        setIsPlaceholder(true);
       } else {
-        setIsPlaceholder(false)
+        setIsPlaceholder(false);
       }
-    }, [innerRef.current?.value])
+    }, [innerRef.current?.value]);
 
     return (
       <div>
         <Label label={"Country"} />
         <div
           onFocus={() => {
-            setBorderColor(true)
-            innerRef.current?.focus()
+            setBorderColor(true);
+            innerRef.current?.focus();
           }}
           onBlur={() => {
-            setBorderColor(false)
-            innerRef.current?.blur()
+            setBorderColor(false);
+            innerRef.current?.blur();
           }}
           style={borderColor ? { borderColor: "" } : {}}
           className={clsx(
@@ -123,10 +123,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           </div>
         )}
       </div>
-    )
+    );
   }
-)
+);
 
-NativeSelect.displayName = "NativeSelect"
+NativeSelect.displayName = "NativeSelect";
 
-export default NativeSelect
+export default NativeSelect;
