@@ -215,9 +215,12 @@ const CheckOutPage = () => {
                                       errMsg={`First Name should have more than 3 characters and less than 20 characters!`}
                                       label="First Name"
                                       {...register(
-                                        "shipping_address.first_name"
+                                        "shipping_address.first_name",
+                                        {
+                                          required: "First name is required",
+                                        }
                                         // {
-                                        //   required: "First name is required",
+
                                         //   minLength: {
                                         //     value: 3,
                                         //     message:
@@ -240,7 +243,7 @@ const CheckOutPage = () => {
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
                                     <Input
-                                      minLength={2}
+                                      minLength={1}
                                       maxLength={20}
                                       label="Last Name"
                                       errMsg={`Last Name should have atleast 1 characters!`}
