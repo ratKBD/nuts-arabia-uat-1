@@ -38,6 +38,7 @@ import SectionLoading from "../preloader/SectionLoading";
 import CartTotalSection from "./CartTotalSection";
 import ShippingPage from "./ShippingPage";
 import PaymentModal from "../modal/PaymentModal";
+import { min } from "lodash";
 
 const CheckOutPage = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -212,12 +213,22 @@ const CheckOutPage = () => {
                                       minLength={3}
                                       maxLength={20}
                                       errMsg={`First Name should have more than 3 characters and less than 20 characters!`}
-                                      label="First name"
+                                      label="First Name"
                                       {...register(
-                                        "shipping_address.first_name",
-                                        {
-                                          required: "First name is required",
-                                        }
+                                        "shipping_address.first_name"
+                                        // {
+                                        //   required: "First name is required",
+                                        //   minLength: {
+                                        //     value: 3,
+                                        //     message:
+                                        //       "First ame should contain atleast 3 character",
+                                        //   },
+                                        //   maxLength: {
+                                        //     value: 15,
+                                        //     message:
+                                        //       "First ame should not exceed more 15 than ",
+                                        //   },
+                                        // }
                                       )}
                                       placeholder="First Name"
                                       autoComplete="given-name"
@@ -229,9 +240,9 @@ const CheckOutPage = () => {
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
                                     <Input
-                                      minLength={1}
+                                      minLength={2}
                                       maxLength={20}
-                                      label="Last name"
+                                      label="Last Name"
                                       errMsg={`Last Name should have atleast 1 characters!`}
                                       {...register(
                                         "shipping_address.last_name",
@@ -291,7 +302,7 @@ const CheckOutPage = () => {
                                       {...register("shipping_address.phone", {
                                         required: "Phone is required",
                                       })}
-                                      placeholder="Phone number"
+                                      placeholder="Phone Number"
                                       autoComplete="phone-number"
                                       errors={errors.shipping_address?.phone}
                                       touched={touchedFields}
@@ -369,7 +380,7 @@ const CheckOutPage = () => {
                                           required: "Postal code is required",
                                         }
                                       )}
-                                      placeholder="Postal code"
+                                      placeholder="Postal Code"
                                       autoComplete="postal-code"
                                       errors={
                                         errors.shipping_address?.postal_code
@@ -613,7 +624,10 @@ const CheckOutPage = () => {
                                             }
                                           )}
                                           autoComplete="country"
-                                          errors={errors}
+                                          // errors={
+                                          //   errors.shipping_address
+                                          //     ?.country_code
+                                          // }
                                           touched={touchedFields}
                                           disabled={true}
                                         />

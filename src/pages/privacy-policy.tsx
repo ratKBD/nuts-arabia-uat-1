@@ -1,9 +1,9 @@
-import { ReactElement } from "react"
-import React from "react"
-import Link from "next/link"
-import Layout from "@modules/layout/templates"
-import PageHeader from "@modules/products/components/header/PageHeader"
-import { NextPageWithLayout } from "types/global"
+import { ReactElement } from "react";
+import React from "react";
+import Link from "next/link";
+import Layout from "@modules/layout/templates";
+import PageHeader from "@modules/products/components/header/PageHeader";
+import { NextPageWithLayout } from "types/global";
 
 const PrivacyPolicy: NextPageWithLayout = () => {
   return (
@@ -281,26 +281,26 @@ References in this Privacy Policy to "we", "our" or "us" (or similar) are refere
                 {` 1.  Information that you provide by filling in forms on our Platform, including information provided at the time of registering to use our Platform and other co- registrations (e.g. social media logins), subscribing to our Services, posting material or requesting further services.`}
               </li>
               <li>
-                {` 2.  the Information you provide when you enter a competition or promotion via our Platform, provide reviews, testimonials or feedback on our Platform.`}
+                {` 2.  The Information you provide when you enter a competition or promotion via our Platform, provide reviews, testimonials or feedback on our Platform.`}
               </li>
               <li>
                 {` 3. Information you provide us, or that we may collect from you, when you report a problem with our Platform.`}
               </li>
-              <li>{` 4. a record of correspondence if you contact us.`}</li>
+              <li>{` 4. A record of correspondence if you contact us.`}</li>
               <li>
-                {`5. general, aggregated, demographic and non-personal Information.`}
+                {`5. General, aggregated, demographic and non-personal Information.`}
               </li>
               <li>
-                {` 6.  if you download or use our mobile application, we may have access to details about your location and your mobile device, including a unique identifier for your device.`}
+                {` 6.  If you download or use our mobile application, we may have access to details about your location and your mobile device, including a unique identifier for your device.`}
               </li>
               <li>
-                {` 7. details of transactions you carry out through our Platform and of the fulfilment of your orders.`}
+                {` 7. Details of transactions you carry out through our Platform and of the fulfilment of your orders.`}
               </li>
               <li>
-                {` 8. details about your computer, including but not limited to your IP address, operating system and browser type, as well as information about your general internet usage (e.g. by using technology that stores information on or gains access to your device, such as cookies, tracking pixels, web beacons, etc., (together, "Cookies")).`}
+                {` 8. Details about your computer, including but not limited to your IP address, operating system and browser type, as well as information about your general internet usage (e.g. by using technology that stores information on or gains access to your device, such as cookies, tracking pixels, web beacons, etc., (together, "Cookies")).`}
               </li>
               <li>
-                {` 9. your email address from a third party if you indicate that you have consented to that third party sharing your Information with us and
+                {` 9. Your email address from a third party if you indicate that you have consented to that third party sharing your Information with us and
   any other Information we consider necessary to enhance your experience on the Platform.`}
               </li>
             </ol>
@@ -313,24 +313,24 @@ References in this Privacy Policy to "we", "our" or "us" (or similar) are refere
             <div className="font-sans leading-7">
               <ol>
                 <li>
-                  {` 1.    to provide you with information, products or services that you request from us or which we feel may interest you, where you have consented to be contacted for such purposes.`}
+                  {` 1.    To provide you with information, products or services that you request from us or which we feel may interest you, where you have consented to be contacted for such purposes.`}
                 </li>
                 <li>
-                  {` 2.    to provide you with location-based services, such as advertising, search results and other personalised content`}
+                  {` 2.    To provide you with location-based services, such as advertising, search results and other personalised content`}
                 </li>
                 <li>
-                  {` 3. to carry out our obligations arising from any contracts entered into between you and another entity using our Platform or between you and us.`}
+                  {` 3. To carry out our obligations arising from any contracts entered into between you and another entity using our Platform or between you and us.`}
                 </li>
-                <li>{` 4. to improve our Services and to deliver a better and more personalised service to you.`}</li>
+                <li>{` 4. To improve our Services and to deliver a better and more personalised service to you.`}</li>
                 <li>
-                  {`5.  to ensure that content from our Platform is presented in the most effective manner for you and the device you use to access our Platform.`}
+                  {`5.  To ensure that content from our Platform is presented in the most effective manner for you and the device you use to access our Platform.`}
                 </li>
-                <li>{` 6.  to notify you about changes to our Services.`}</li>
+                <li>{` 6.  To notify you about changes to our Services.`}</li>
                 <li>
-                  {` 7.  for any other reason which we deem necessary to enhance your experience of the Platform.`}
+                  {` 7.  For any other reason which we deem necessary to enhance your experience of the Platform.`}
                 </li>
                 <li>
-                  {` 8.  to administer and manage our incentives programs and fulfil your requests for incentives,and/or to allow you to participate in sweepstakes and to notify you if you are a sweepstakes winner.`}
+                  {` 8.  To administer and manage our incentives programs and fulfil your requests for incentives,and/or to allow you to participate in sweepstakes and to notify you if you are a sweepstakes winner.`}
                 </li>
               </ol>
             </div>
@@ -443,18 +443,18 @@ References in this Privacy Policy to "we", "our" or "us" (or similar) are refere
               </p>
               <ol>
                 <li>
-                  {` 1.  up-to-date information regarding recent orders.`}
+                  {` 1.  Up-to-date information regarding recent orders.`}
                 </li>
                 <li>
-                  {` 2.  personally identifiable information (including name, e-mail, password, communications and personalised advertising preferences).`}
+                  {` 2.  Personally identifiable information (including name, e-mail, password, communications and personalised advertising preferences).`}
                 </li>
                 <li>
-                  {` 3. payment settings (including credit card information) and`}
+                  {` 3. Payment settings (including credit card information) and`}
                 </li>
                 <li>{` 4. e-mail notification settings.`}</li>
               </ol>
               <p>{`You can opt-out of receiving future marketing communications from us at any time by adjusting your customer communication preferences, through the unsubscribe link within the email`}</p>
-              <p>{`communication. For marketing via your mobile application, you will need to adjust your notifications settings in the general section of your mobile.`}</p>
+              <p>{`Communication. For marketing via your mobile application, you will need to adjust your notifications settings in the general section of your mobile.`}</p>
               <p>{`Also, our system will place cookies when you log on to our Platform and this is to ensure you have an enjoyable user experience and are able to utilise all aspects of the Platform. You may disable Cookies by changing the settings on your browser. If you disable Cookies, it will affect how our Platform works and you may not be able to access or use certain areas of our Platform or full functionality. For example, performance cookies collect information about how you use the Site, for instance, which pages you visit most often, which allows us to provide you with targeted and relevant choices that enhance your Site experience.`}</p>
               <p>{`We may retain a copy of your Information for compliance reasons. When you update Information, we may retain a copy of the prior version for our records.`}</p>
             </div>
@@ -484,14 +484,14 @@ References in this Privacy Policy to "we", "our" or "us" (or similar) are refere
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 PrivacyPolicy.getLayout = (page: ReactElement) => {
   return (
     <Layout title="Privacy Policy" description="This is privacy policy page">
       {page}
     </Layout>
-  )
-}
+  );
+};
 
-export default PrivacyPolicy
+export default PrivacyPolicy;

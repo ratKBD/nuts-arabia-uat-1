@@ -13,6 +13,7 @@ type InputProps = Omit<
   "placeholder"
 > & {
   label: string;
+  // errors?: Record<string, unknown>
   errors?: any;
   touched?: Record<string, unknown>;
   name?: string;
@@ -27,11 +28,15 @@ type InputProps = Omit<
   inputName?: any;
   handleValueChange?: any;
   setValue?: any;
+  register?: any;
+  required?: any;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      register,
+
       setValue,
       handleValueChange,
       inputName,
@@ -61,11 +66,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const { cart } = useCheckout();
 
     console.log("errCart", cart?.shipping_address);
-
     console.log("inputRef", inputRef?.current?.value);
     console.log("inputChar", inputChar);
     console.log("required", required);
     console.log("props--->", props);
+    console.log("min", minLength);
 
     useEffect(() => {
       // setInputChar(inputRef?.current?.value)
@@ -86,12 +91,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     if (errors && name && touched) {
       hasError = get(errors, name) && get(touched, name);
       console.log("nameValue", name);
-      console.log("errors", errors.message);
+      console.log("errors", errors);
       console.log("touched", touched);
     }
 
     console.log("inputType", inputType);
     console.log("hasError", hasError);
+    console.log("register", register);
 
     return (
       <div>
@@ -104,6 +110,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
+            maxLength={maxLength}
+            // minLength={minLength}
             // value={inputChar}
             // className={clsx(
             //   "pt-4 pb-1 block w-full px-4 mt-0 bg-transparent border appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 border-gray-200",
