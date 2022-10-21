@@ -6,7 +6,7 @@ import Eye from "@modules/common/icons/eye";
 import EyeOff from "@modules/common/icons/eye-off";
 import clsx from "clsx";
 import React, { useEffect, useImperativeHandle, useState } from "react";
-import { get } from "react-hook-form";
+import { get, useForm, useFormState } from "react-hook-form";
 
 type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -28,15 +28,19 @@ type InputProps = Omit<
   inputName?: any;
   handleValueChange?: any;
   setValue?: any;
-  register?: any;
+  // register?: any
   required?: any;
+  inputValue?: any;
+  setInputValue?: any;
 };
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      register,
+      // register,
 
+      inputValue,
+      setInputValue,
       setValue,
       handleValueChange,
       inputName,
@@ -65,9 +69,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const { cart } = useCheckout();
 
-    console.log("errCart", cart?.shipping_address);
+    console.log("errCart", cart);
     console.log("inputRef", inputRef?.current?.value);
-    console.log("inputChar", inputChar);
+    console.log("inputChar", inputChar.length);
     console.log("required", required);
     console.log("props--->", props);
     console.log("min", minLength);
@@ -97,7 +101,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     console.log("inputType", inputType);
     console.log("hasError", hasError);
-    console.log("register", register);
+
+    // console.log("register", register)
 
     return (
       <div>
@@ -110,8 +115,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             placeholder={placeholder}
             defaultValue={defaultValue}
             disabled={disabled}
-            maxLength={maxLength}
-            // minLength={minLength}
+            // maxLength={maxLength}
+            // min={minLength}
+            // {...register(name, {
+            //   maxLength: {
+            //     value: maxLength,
+            //     message: "error message", // JS only: <p>error message</p> TS only support string
+            //   },
+            //   minLength: {
+            //     value: minLength,
+            //     message: "error message", // JS only: <p>error message</p> TS only support string
+            //   },
+            // })}
             // value={inputChar}
             // className={clsx(
             //   "pt-4 pb-1 block w-full px-4 mt-0 bg-transparent border appearance-none focus:outline-none focus:ring-0 focus:border-gray-400 border-gray-200",
@@ -125,11 +140,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
             ref={inputRef}
             onChange={(e) => {
-              // handleValueChange(e)
-
-              console.log("typedValue", inputRef?.current?.value);
+              handleValueChange(e);
+              console.log("target", e.target.value);
+              // console.log("typedValue", inputRef?.current?.value)
               // console.log("eventValue", e.target.value)
-              setInputChar(inputRef?.current?.value);
+              // setInputChar(inputRef?.current?.value)
+              // setInputValue({ name: e.target.name, value: e.target.value })
             }}
           />
           {/* <label
@@ -156,6 +172,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             </button>
           )}
         </div>
+
+        {hasError ||
+          (errMsg && (
+            <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
+              <span>{errMsg}</span>
+            </div>
+          ))}
+
         {/* {(inputCharCount === 2 || hasError) && (
           <ErrorMessage
             errors={errors}
@@ -170,17 +194,33 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
         )} */}
 
-        {(hasError ||
+        {/* {(hasError ||
           inputChar?.length < minLength ||
           inputChar?.length > maxLength) && (
           <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
             <span>{inputChar?.length === 0 ? errors?.message : errMsg}</span>
           </div>
-        )}
+        )} */}
+
+        {/* {(hasError ||
+          inputChar?.length < minLength ||
+          inputChar?.length > maxLength) && (
+          <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
+            <span>{inputChar?.length === 0 ? errors?.message : errMsg}</span>
+          </div>
+        )} */}
+
+        {/* {formSubmit && inputRef.current?.value.length === 0 ? (
+          <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
+            <span>{errors?.message}</span>
+          </div>
+        ) : (
+          ""
+        )} */}
 
         {/* Only Alphabets for first name & last name */}
 
-        {name === "shipping_address.first_name" ||
+        {/* {name === "shipping_address.first_name" ||
         name === "shipping_address.last_name" ? (
           <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
             <span>
@@ -191,10 +231,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         ) : (
           ""
-        )}
+        )} */}
 
         {/* email Validation */}
-
+        {/* 
         {regex && inputChar.length > 0 ? (
           <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
             <span>
@@ -205,12 +245,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         ) : (
           ""
-        )}
+        )} */}
 
         {/* Number Validation for Phone and Postal code */}
-
-        {(inputChar.length > 1 && name === "shipping_address.postal_code") ||
-        (inputChar.length > 1 && name === "shipping_address.phone") ? (
+        {/* 
+        {(hasError &&
+          inputChar.length > 1 &&
+          name === "shipping_address.postal_code") ||
+        (hasError &&
+          inputChar.length > 1 &&
+          name === "shipping_address.phone") ? (
           <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
             <span>
               {!inputChar?.match(/^\d+/)
@@ -220,7 +264,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </div>
         ) : (
           ""
-        )}
+        )} */}
       </div>
     );
   }

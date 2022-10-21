@@ -39,6 +39,7 @@ import CartTotalSection from "./CartTotalSection";
 import ShippingPage from "./ShippingPage";
 import PaymentModal from "../modal/PaymentModal";
 import { min } from "lodash";
+import ShippingAddress from "@modules/checkout/components/shipping-address";
 
 const CheckOutPage = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -68,15 +69,98 @@ const CheckOutPage = () => {
   // console.log("displayPaymentMethod", setDisplayPaymentMethod)
   const [showCard, setShowCard] = useState<any>(false);
   const [modalOpen, setModalOpen] = useState<any>(false);
-  // const [value, setValue] = useState<any>({
-  //   firstName: "",
-  //   lastName: "",
-  // })
+
+  const [value, setValue] = useState<any>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postal: "",
+  });
+
+  var submitBtnProps = {
+    onclick: handleSubmit(setAddresses),
+  };
+
   const [err, setErr] = useState<any>({
     firstName: "",
     lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    postal: "",
   });
-  console.log("boolean", isEdit);
+
+  const [firstName, setFirstName] = useState<any>({
+    name: "shipping_address.first_name",
+    value: "",
+  });
+  const [lastName, setLastName] = useState<any>({
+    name: "shipping_address.last_name",
+    value: "",
+  });
+  const [email, setEmail] = useState<any>({
+    name: "email",
+    value: "",
+  });
+  const [phone, setPhone] = useState<any>({
+    name: "shipping_address.phone",
+    value: "",
+  });
+  const [address, setAddress] = useState<any>({
+    name: "shipping_address.address_1",
+    value: "",
+  });
+  const [city, setCity] = useState<any>({
+    name: "shipping_address.city",
+    value: "",
+  });
+  const [country, setCountry] = useState<any>({
+    name: "shipping_address.country_code",
+    value: "",
+  });
+  const [postal, setPostal] = useState<any>({
+    name: "shipping_address.postal_code",
+    value: "",
+  });
+
+  const [countryCode, setCountryCode] = useState<any>("");
+
+  const [validationSuccess, setValidationSuccess] = useState<any>(true);
+
+  // const [shippingName, setShippingName] = useState<any>()
+
+  const [firstNameMsg, setFirstNameMsg] = useState<any>("");
+  const [lastNameMsg, setLastNameMsg] = useState<any>("");
+  const [emailMsg, setEmailMsg] = useState<any>("");
+  const [phoneMsg, setPhoneMsg] = useState<any>("");
+  const [addressMsg, setAddressMsg] = useState<any>("");
+  const [cityMsg, setCityMsg] = useState<any>("");
+  const [countryMsg, setCountryMsg] = useState<any>("");
+  const [postalMsg, setPostalMsg] = useState<any>("");
+
+  const [firstNameErr, setFirstNameErr] = useState<any>(true);
+  const [lastNameErr, setLastNameErr] = useState<any>(true);
+  const [emailErr, setEmailErr] = useState<any>(true);
+  const [phoneErr, setPhoneErr] = useState<any>(true);
+  const [addressErr, setAddressErr] = useState<any>(true);
+  const [cityErr, setCityErr] = useState<any>(true);
+  const [countryErr, setCountryErr] = useState<any>(true);
+  const [postalErr, setPostalErr] = useState<any>(true);
+
+  const [firstNameMsgD, setFirstNameMsgD] = useState<any>("");
+  const [lastNameMsgD, setLastNameMsgD] = useState<any>("");
+  const [emailMsgD, setEmailMsgD] = useState<any>("");
+  const [phoneMsgD, setPhoneMsgD] = useState<any>("");
+  const [addressMsgD, setAddressMsgD] = useState<any>("");
+  const [cityMsgD, setCityMsgD] = useState<any>("");
+  const [countryMsgD, setCountryMsgD] = useState<any>("");
+  const [postalMsgD, setPostalMsgD] = useState<any>("");
+
+  console.log("isEdit", isEdit);
   console.log("cartCheck", cart);
 
   useEffect(() => {
@@ -85,8 +169,6 @@ const CheckOutPage = () => {
       setPaymentMethodGloble(paymentMethod);
     }
   }, [paymentMethod]);
-
-  console.log("setAddress", setAddresses);
 
   useEffect(() => {
     console.log("cart.payment_sessions", cart?.payment_sessions);
@@ -113,39 +195,745 @@ const CheckOutPage = () => {
     };
   }, [displayPaymentMethod]);
 
+  // useEffect(() => {
+  //   setValue({
+  //     firstName: firstName,
+  //     lastName: lastName,
+  //     email: email,
+  //     phone: phone,
+  //     address: address,
+  //     city: city,
+  //     postal: postal,
+  //   })
+  // }, [firstName, lastName, email, phone, address, city, postal])
+
   // const handleValueChange = (e: any) => {
-  //   console.log("targetedValue", e.target.name)
-  //   let name: any = e.target.name
-  //   let currentValue: any = e.target.value
-  //   let eMsg: any
+  //   let inputDetails: any
+
+  //   inputDetails = { name: e.target.name, value: e.target.value }
+
+  //   console.log("handleName", shippingName)
+  //   console.log("firstName", firstName)
+  //   console.log("lastName", lastName)
+
+  //   // setValue({
+  //   //   firstName: firstName,
+  //   //   lastName: lastName,
+  //   //   email: email,
+  //   //   phone: phone,
+  //   //   address: address,
+  //   //   city: city,
+  //   //   // country: country,
+  //   //   postal: postal,
+  //   // })
+  //   console.log("finalValue", value)
+
+  //   // let currentValue: any = e.target.value
+  //   // let eMsg: any
+
+  //   // switch (name) {
+  //   //   case "shipping_address.first_name": {
+  //   //     console.log("eValue", e.target.value)
+
+  //   //     // validation
+  //   //     if (currentValue.trim()) {
+  //   //       if (currentValue.length < 3 || currentValue.length > 15) {
+  //   //         eMsg =
+  //   //           "First Name should have more than 3 characters and less than 20 characters!"
+  //   //       }
+  //   //     } else {
+  //   //       eMsg = "First Name is required"
+  //   //     }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       firstName: currentValue,
+  //   //       lastName: value.lastName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       firstName: eMsg,
+  //   //       lastName: err.lastName,
+  //   //     })
+  //   //   }
+  //   // }
+  //   // switch (name) {
+  //   //   case "shipping_address.first_name": {
+  //   //     // validation
+  //   //     // if (value?.firstName.trim()) {
+  //   //     //   if (value.firstName.length < 3 || value.firstName.length > 20) {
+  //   //     //     eMsg =
+  //   //     //       "First Name should have more than 3 characters and less than 20 characters!"
+  //   //     //   }
+  //   //     // } else {
+  //   //     //   eMsg = "First Name is required"
+  //   //     // }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       firstName: firstName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       firstName: eMsg,
+  //   //       // lastName: err.lastName,
+  //   //     })
+  //   //   }
+  //   //   case "shipping_address.last_name": {
+  //   //     // validation
+  //   //     if (value?.lastName.trim()) {
+  //   //       if (value.firstName.length < 1 || value.firstName.length > 20) {
+  //   //         eMsg = "Last Name should have atleast 1 characters!"
+  //   //       }
+  //   //     } else {
+  //   //       eMsg = "Last Name is required"
+  //   //     }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       lastName: lastName,
+  //   //       // lastName: value.lastName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       lastName: eMsg,
+  //   //       // lastName: err.lastName,
+  //   //     })
+  //   //   }
+
+  //   //   case "shipping_address.address_1": {
+  //   //     // validation
+  //   //     if (value?.address.trim()) {
+  //   //       if (value.address.length < 10 || value.address.length > 100) {
+  //   //         eMsg =
+  //   //           "Address should have more than 10 characters and less than 100 characters!"
+  //   //       }
+  //   //     } else {
+  //   //       eMsg = "Address is required"
+  //   //     }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       address: address,
+  //   //       // lastName: value.lastName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       address: eMsg,
+  //   //       // lastName: err.lastName,
+  //   //     })
+  //   //   }
+
+  //   //   case "shipping_address.city": {
+  //   //     // validation
+  //   //     if (value?.city.trim()) {
+  //   //       if (value.city.length < 3 || value.city.length > 30) {
+  //   //         eMsg =
+  //   //           "city should have more than 3 characters and less than 30 characters!"
+  //   //       }
+  //   //     } else {
+  //   //       eMsg = "city is required"
+  //   //     }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       city: city,
+  //   //       // lastName: value.lastName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       city: eMsg,
+  //   //       // lastName: err.lastName,
+  //   //     })
+  //   //   }
+
+  //   //   case "shipping_address.postal_code": {
+  //   //     if (value?.postal.trim()) {
+  //   //       if (value.postal.length < 4 || value.postal.length > 5) {
+  //   //         eMsg =
+  //   //           "postal should have more than 4 characters and less than 5 characters!"
+  //   //       }
+  //   //     } else {
+  //   //       eMsg = "postal is required"
+  //   //     }
+
+  //   //     // setValue(ndasd)
+  //   //     setValue({
+  //   //       postal: postal,
+  //   //       // lastName: value.lastName,
+  //   //     })
+  //   //     // setError()
+  //   //     setErr({
+  //   //       postal: eMsg,
+  //   //       // lastName: err.lastName,
+  //   //     })
+  //   //   }
+
+  //   //   default:
+  //   //     setErr({
+  //   //       firstName: "First Name is required",
+  //   //       lastName: "Last Name is required",
+  //   //       address: "address is required",
+  //   //       city: "city is required",
+  //   //       postal: "postal is required",
+  //   //     })
+  //   // }
+  // }
+
+  // const onSubmit = () => {
+  //   setFirstNameMsg("")
+  //   setLastNameMsg("")
+  //   setEmailMsg("")
+  //   setPhoneMsg("")
+  //   setAddressMsg("")
+  //   setCityMsg("")
+  //   setPostalMsg("")
+  //   console.log("checkName", firstName.name)
+  //   let checkFirstName: any = validate(firstName?.name, firstName?.value)
+  //   console.log("firstNameError 1", err)
+  //   let checkLastName: any = validate(lastName?.name, lastName?.value)
+  //   let checkEmail: any = validate(email?.name, email?.value)
+  //   let checkPhone: any = validate(phone?.name, phone?.value)
+  //   console.log("firstNameError 2", err)
+  //   let checkAddress: any = validate(address?.name, address?.value)
+  //   let checkCity: any = validate(city?.name, city?.value)
+  //   let checkPostal: any = validate(postal?.name, postal?.value)
+
+  //   console.log("checkFN", checkFirstName)
+  //   console.log("checkLN", checkLastName)
+  //   console.log("checkEM", checkEmail)
+  //   console.log("checkPH", checkPhone)
+  //   console.log("checkAD", checkAddress)
+  //   console.log("checkCI", checkCity)
+  //   console.log("checkPO", checkPostal)
+
+  //   if (
+  //     checkFirstName &&
+  //     checkLastName &&
+  //     checkEmail &&
+  //     checkPhone &&
+  //     checkAddress &&
+  //     checkCity &&
+  //     checkPostal
+  //   ) {
+  //     console.log("updation SUCCESSFULL")
+  //     handleSubmit(setAddresses)
+  //   } else {
+  //     console.log("updation FAILED")
+  //   }
+  // }
+
+  // const validate = (name: any, value: any) => {
+  //   console.log("valueCheck", name)
+  //   console.log("vCheck", value)
+  //   // console.log("errrorMsg", err)
+  //   let eMsg: any = ""
+  //   let error: any = false
 
   //   switch (name) {
   //     case "shipping_address.first_name": {
-  //       console.log("eValue", e.target.value)
-
+  //       // let eMsg:any
+  //       // let error:any = false
   //       // validation
-  //       if (currentValue.trim()) {
-  //         if (currentValue.length < 3 || currentValue.length > 15) {
-  //           eMsg =
-  //             "First Name should have more than 3 characters and less than 20 characters!"
+  //       console.log("valueCheck--->", value)
+  //       if (value.trim()) {
+  //         if (value.length < 3 || value.length > 15) {
+  //           error = true
+  //           setFirstNameMsgD(
+  //             "First Name should have more than 3 characters and less than 15 characters!"
+  //           )
+  //           console.log('firstNameMsgD',firstNameMsgD)
+  //         }
+  //         if (!/^[a-zA-Z]+$/.test(value.trim())) {
+  //           error = true
+  //           setFirstNameMsgD("Improper standard of First Name")
   //         }
   //       } else {
-  //         eMsg = "First Name is required"
+  //         error = true
+  //         setFirstNameMsgD("First Name is required")
+  //       }
+  //       console.log("checkError fn", err, eMsg)
+
+  //       // setErr({ ...err, firstName: /* eMsg */ firstNameMsg })
+
+  //       return !error
+  //     }
+
+  //     case "shipping_address.last_name": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (value.length < 1 || value.length > 20) {
+  //           error = true
+  //           setLastNameMsgD("Last Name should have atleast 1 character!")
+  //         }
+  //         if (!/^[a-zA-Z]+$/.test(value.trim())) {
+  //           error = true
+  //           setLastNameMsgD("Improper standard of Last Name")
+  //         }
+  //       } else {
+  //         error = true
+  //         setLastNameMsgD("Last Name is required")
+  //       }
+  //       console.log("checkError ln", err, eMsg)
+  //       // setErr({ ...err, lastName: /* eMsg */ lastNameMsg })
+
+  //       return !error
+  //     }
+
+  //     case "email": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+  //           error = true
+  //           setEmailMsgD("Improper standard of email")
+  //         }
+  //       } else {
+  //         error = true
+  //         setEmailMsgD("email is required")
   //       }
 
-  //       // setValue(ndasd)
-  //       setValue({
-  //         firstName: currentValue,
-  //         lastName: value.lastName,
-  //       })
-  //       // setError()
-  //       setErr({
-  //         firstName: eMsg,
-  //         lastName: err.lastName,
-  //       })
+  //       console.log("checkError ln", err, eMsg)
+  //       // setErr({ ...err, email: /* eMsg */ emailMsg })
+
+  //       return !error
+  //     }
+
+  //     case "shipping_address.phone": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (
+  //           !/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/.test(
+  //             value
+  //           )
+  //         ) {
+  //           error = true
+  //           setPhoneMsgD("Improper standard of Phone Number")
+  //         }
+  //       } else {
+  //         error = true
+  //         setPhoneMsgD("Phone Number is required")
+  //       }
+  //       console.log("checkError ln", err)
+  //       // setErr({ ...err, phone: /* eMsg */ phoneMsg })
+
+  //       return !error
+  //     }
+
+  //     case "shipping_address.address_1": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (value.length < 3 || value.length > 100) {
+  //           error = true
+
+  //           setAddressMsgD(
+  //             "Address should have more than 10 characters and less than 100 characters!"
+  //           )
+  //         }
+  //       } else {
+  //         error = true
+  //         setAddressMsgD("Address is required")
+  //       }
+  //       console.log("checkError add", err)
+  //       // setErr({ ...err, address: /* eMsg */ addressMsg })
+  //       return !error
+  //     }
+  //     case "shipping_address.city": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (value.length < 3 || value.length > 30) {
+  //           error = true
+
+  //           setCityMsgD(
+  //             "city should have more than 3 characters and less than 30 characters!"
+  //           )
+  //         }
+  //       } else {
+  //         error = true
+  //         setCityMsgD("City is required")
+  //       }
+  //       console.log("checkError ci", err)
+  //       // setErr({ ...err, city: /* eMsg */ cityMsg })
+  //       return !error
+  //     }
+  //     case "shipping_address.postal_code": {
+  //       // let eMsg:any
+  //       // let error:any = false
+  //       // validation
+  //       if (value.trim()) {
+  //         if (value.length < 4 || value.length > 5) {
+  //           error = true
+
+  //           setPostalMsgD(
+  //             "postal should have more than 4 characters and less than 5 characters!"
+  //           )
+  //         } else if (!/^[0-9]+$/.test(value)) {
+  //           error = true
+  //           setPostalMsgD("Improper standard of Postal Code")
+  //         }
+  //       } else {
+  //         error = true
+  //         setPostalMsgD("Postal Code is required")
+  //       }
+  //       console.log("checkError po", err)
+  //       // setErr({ ...err, postal: /* eMsg */ postalMsg })
+  //       return !error
   //     }
   //   }
   // }
+
+  const handleValueChange = (e: any) => {
+    let inputDetails: any;
+
+    inputDetails = { name: e.target.name, value: e.target.value };
+    console.log("inputDetails-->", inputDetails);
+    let error: any = false;
+
+    // console.log("valu-->", value)
+    console.log("inputDetails.value", inputDetails.value);
+    console.log("validationSuccess", validationSuccess);
+
+    switch (inputDetails.name) {
+      case "shipping_address.first_name": {
+        // let eMsg:any
+        // validation
+        setFirstName({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+
+        console.log("valueCheck--->", inputDetails.value);
+        if (inputDetails.value.trim()) {
+          setFirstNameMsgD("");
+          setFirstNameMsg("");
+          setFirstNameErr(false);
+          console.log("errs fn", firstNameErr);
+          if (inputDetails.value.length < 3 || inputDetails.value.length > 15) {
+            // error = true
+            setFirstNameErr(true);
+            setFirstNameMsgD(
+              "First Name should have more than 3 characters and less than 15 characters!"
+            );
+            console.log("firstNameMsgD", firstNameMsgD);
+          }
+          if (!/^[a-zA-Z]+$/.test(inputDetails.value.trim())) {
+            setFirstNameErr(true);
+            setFirstNameMsgD("Improper standard of First Name");
+          }
+        } else {
+          setFirstNameErr(true);
+          setFirstNameMsgD("First Name is required");
+        }
+        // console.log("checkError fn", err, eMsg)
+
+        // setErr({ ...err, firstName: /* eMsg */ firstNameMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      // {!errror? setValidation(true) : "" }
+
+      case "shipping_address.last_name": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+
+        setLastName({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+
+        if (inputDetails.value.trim()) {
+          setLastNameMsgD("");
+          setLastNameMsg("");
+          setLastNameErr(false);
+          console.log("errs ln", lastNameErr);
+          if (inputDetails.value.length < 1 || inputDetails.value.length > 20) {
+            setLastNameErr(true);
+            setLastNameMsgD("Last Name should have atleast 1 character!");
+          }
+          if (!/^[a-zA-Z]+$/.test(inputDetails.value.trim())) {
+            setLastNameErr(true);
+            setLastNameMsgD("Improper standard of Last Name");
+          }
+        } else {
+          setLastNameErr(true);
+          setLastNameMsgD("Last Name is required");
+        }
+
+        // console.log("checkError ln", err, eMsg)
+        // setErr({ ...err, lastName: /* eMsg */ lastNameMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      case "email": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setEmail({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+        console.log("mailCheck", inputDetails.value);
+        if (inputDetails.value.trim()) {
+          setEmailMsgD("");
+          setEmailMsg("");
+          setEmailErr(false);
+          console.log("errs email", emailErr);
+          if (
+            !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+              inputDetails.value
+            )
+          ) {
+            setEmailErr(true);
+            setEmailMsgD("Improper standard of email");
+          }
+        } else {
+          setEmailErr(true);
+          setEmailMsgD("email is required");
+        }
+
+        // console.log("checkError ln", err, eMsg)
+        // setErr({ ...err, email: /* eMsg */ emailMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      case "shipping_address.phone": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setPhone({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+
+        if (inputDetails.value.trim()) {
+          setPhoneMsgD("");
+          setPhoneMsg("");
+          setPhoneErr(false);
+          console.log("errs phone", phoneErr);
+          if (
+            !/^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/.test(
+              inputDetails.value
+            )
+          ) {
+            setPhoneErr(true);
+            setPhoneMsgD("Improper standard of Phone Number");
+          }
+        } else {
+          setPhoneErr(true);
+          setPhoneMsgD("Phone Number is required");
+        }
+        // console.log("checkError ln", err)
+        // setErr({ ...err, phone: /* eMsg */ phoneMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      case "shipping_address.address_1": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setAddress({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+        if (inputDetails.value.trim()) {
+          setAddressMsgD("");
+          setAddressMsg("");
+          setAddressErr(false);
+          console.log("errs address", addressErr);
+          if (
+            inputDetails.value.length < 3 ||
+            inputDetails.value.length > 100
+          ) {
+            setAddressErr(true);
+
+            setAddressMsgD(
+              "Address should have more than 10 characters and less than 100 characters!"
+            );
+          }
+        } else {
+          setAddressErr(true);
+          setAddressMsgD("Address is required");
+        }
+        // console.log("checkError add", err)
+        // setErr({ ...err, address: /* eMsg */ addressMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+      case "shipping_address.city": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setCity({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+        console.log("city", inputDetails.value);
+        if (inputDetails.value.trim()) {
+          setCityMsgD("");
+          setCityMsg("");
+          setCityErr(false);
+          console.log("errs city", cityErr);
+          if (inputDetails.value.length < 3 || inputDetails.value.length > 30) {
+            setCityErr(true);
+            setCityMsgD(
+              "city should have more than 3 characters and less than 30 characters!"
+            );
+          }
+        } else {
+          setCityErr(true);
+          setCityMsgD("City is required");
+        }
+        // console.log("checkError ci", err)
+        // setErr({ ...err, city: /* eMsg */ cityMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      case "shipping_address.country_code": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setCountry({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+        console.log("countryyyy", inputDetails.value);
+        if (inputDetails /* .value.trim() */) {
+          setCountryMsgD("");
+          setCountryMsg("");
+          setCountryErr(false);
+          console.log("errs city", cityErr);
+          if (inputDetails.value.length === 0) {
+            console.log("country is empty");
+            setCountryErr(true);
+            setCountryMsgD("Country is required");
+          }
+        }
+        // console.log("checkError ci", err)
+        // setErr({ ...err, city: /* eMsg */ cityMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+
+      case "shipping_address.postal_code": {
+        // let eMsg:any
+        // let error:any = false
+        // validation
+        setPostal({
+          name: inputDetails.name,
+          value: inputDetails.value,
+        });
+        if (inputDetails.value.trim()) {
+          console.log("postal-->", inputDetails.value.length);
+          setPostalMsgD("");
+          setPostalMsg("");
+          setPostalErr(false);
+          console.log("errs postal", postalErr);
+          if (inputDetails.value.length < 4 || inputDetails.value.length > 5) {
+            console.log("postal valid");
+            setPostalErr(true);
+            setPostalMsgD("postal should have 4 to 5 Number!");
+          } else if (!/^[0-9]+$/.test(inputDetails.value)) {
+            setPostalErr(true);
+            setPostalMsgD("Improper standard of Postal Code");
+          }
+        } else {
+          setPostalErr(true);
+          setPostalMsgD("Postal Code is required");
+        }
+        // console.log("checkError po", err)
+        // setErr({ ...err, postal: /* eMsg */ postalMsg })
+        // let temp: any = validationSuccess && !error
+        // setValidationSuccess(temp)
+        break;
+      }
+      // default :
+      //   setFirstNameMsgD("First Name is required")
+      //   setLastNameMsgD("Last Name is required")
+      //   setEmailMsgD("email is required")
+      //   setPhoneMsgD("Phone Number is required")
+      //   setAddressMsgD("Address is required")
+      //   setCityMsgD("City is required")
+      //   setPostalMsgD("Postal Code is required")
+    }
+
+    // let checkFirstName: any = validate(firstName?.name, firstName?.value)
+    // let checkLastName: any = validate(lastName?.name, lastName?.value)
+    // let checkEmail: any = validate(email?.name, email?.value)
+    // let checkPhone: any = validate(phone?.name, phone?.value)
+    // let checkAddress: any = validate(address?.name, address?.value)
+    // let checkCity: any = validate(city?.name, city?.value)
+    // let checkPostal: any = validate(postal?.name, postal?.value)
+  };
+
+  const showError = () => {
+    console.log("fnCheck", firstName.value);
+    if (firstName.value.length === 0) {
+      setFirstNameErr(true);
+      setFirstNameMsg("First Name is required");
+    } else setFirstNameMsg(firstNameMsgD);
+
+    if (lastName.value.length === 0) {
+      setLastNameErr(true);
+      setLastNameMsg("last Name is required");
+    } else setLastNameMsg(lastNameMsgD);
+
+    if (address.value.length === 0) {
+      setAddressErr(true);
+      setAddressMsg("address is required");
+    } else setAddressMsg(addressMsgD);
+
+    if (city.value.length === 0) {
+      setCityErr(true);
+      setCityMsg("city is required");
+    } else setCityMsg(cityMsgD);
+
+    if (email.value.length === 0) {
+      setEmailErr(true);
+      setEmailMsg("email is required");
+    } else setEmailMsg(emailMsgD);
+
+    if (phone.value.length === 0) {
+      setPhoneErr(true);
+      setPhoneMsg("phone is required");
+    } else setPhoneMsg(phoneMsgD);
+
+    if (postal.value.length === 0) {
+      setPostalErr(true);
+      setPostalMsg("postal is required");
+    } else setPostalMsg(postalMsgD);
+
+    if (country.value.length === 0) {
+      setCountryErr(true);
+      setCountryMsg("Country is required");
+    } else setCountryMsg(countryMsgD);
+
+    // console.log("country.value", country.value)
+  };
+  console.log("validation-->", validationSuccess);
+
+  console.log("countryCode-->", countryCode);
 
   return (
     <>
@@ -155,7 +943,10 @@ const CheckOutPage = () => {
             <div className="md:w-full lg:w-3/5 flex h-full flex-col order-2 sm:order-1 lg:order-1">
               <div className="mt-5 md:mt-0 md:col-span-2">
                 <ConnectForm<CheckoutFormValues>>
-                  {({ register, formState: { errors, touchedFields } }) => (
+                  {({
+                    register,
+                    formState: { errors, touchedFields },
+                  }: any) => (
                     <div /* onSubmit={handleSubmit(submitHandler)} */>
                       {isEdit ? (
                         <div>
@@ -181,13 +972,16 @@ const CheckOutPage = () => {
                                         //   required: "First name is required",
                                         // }
                                       )}
+                                      // name={name}
                                       placeholder="First Name"
                                       autoComplete="given-name"
                                       errors={errors}
                                       touched={touchedFields}
-                                      handleValueChange={(e: any) =>
-                                        handleValueChange(e)
-                                      }
+                                      // handleValueChange={(e: any) =>
+                                      //   handleValueChange(e)
+                                      // }
+                                      inputValue={firstName}
+                                      setInputValue={setFirstName}
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
@@ -206,39 +1000,36 @@ const CheckOutPage = () => {
                                       autoComplete="family-name"
                                       errors={errors}
                                       touched={touchedFields}
+                                      inputValue={lastName}
+                                      setInputValue={setLastName}
                                     />
                                   </div> */}
                                   <div className="col-span-6 sm:col-span-3">
                                     <Input
                                       minLength={3}
                                       maxLength={20}
-                                      errMsg={`First Name should have more than 3 characters and less than 20 characters!`}
+                                      // errMsg={`First Name should have more than 3 characters and less than 20 characters!`}
+                                      // errMsg={err?.firstName}
+                                      errMsg={firstNameMsg}
                                       label="First Name"
                                       {...register(
                                         "shipping_address.first_name",
                                         {
                                           required: "First name is required",
                                         }
-                                        // {
-
-                                        //   minLength: {
-                                        //     value: 3,
-                                        //     message:
-                                        //       "First ame should contain atleast 3 character",
-                                        //   },
-                                        //   maxLength: {
-                                        //     value: 15,
-                                        //     message:
-                                        //       "First ame should not exceed more 15 than ",
-                                        //   },
-                                        // }
                                       )}
                                       placeholder="First Name"
                                       autoComplete="given-name"
-                                      errors={
-                                        errors.shipping_address?.first_name
-                                      }
+                                      // errors={
+                                      //   errors.shipping_address?.first_name
+                                      // }
+
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={firstName}
+                                      // setInputValue={setFirstName}
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
@@ -246,7 +1037,8 @@ const CheckOutPage = () => {
                                       minLength={1}
                                       maxLength={20}
                                       label="Last Name"
-                                      errMsg={`Last Name should have atleast 1 characters!`}
+                                      // errMsg={`Last Name should have atleast 1 characters!`}
+                                      errMsg={lastNameMsg}
                                       {...register(
                                         "shipping_address.last_name",
                                         {
@@ -259,6 +1051,11 @@ const CheckOutPage = () => {
                                         errors.shipping_address?.last_name
                                       }
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={lastName}
+                                      // setInputValue={setLastName}
                                     />
                                   </div>
 
@@ -267,10 +1064,12 @@ const CheckOutPage = () => {
                                       minLength={3}
                                       // maxLength={10}
                                       // errMsg={`Email should have more than 2 characters and less than 100 characters!`}
-                                      errFor={`Email Address`}
-                                      regex={
-                                        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-                                      }
+
+                                      // errFor={`Email Address`}
+                                      errMsg={emailMsg}
+                                      // regex={
+                                      //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                                      // }
                                       label="Email"
                                       {...register("email", {
                                         required: "Email is required",
@@ -280,6 +1079,11 @@ const CheckOutPage = () => {
                                       placeholder="example@gmail.com"
                                       errors={errors.email}
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={email}
+                                      // setInputValue={setEmail}
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
@@ -298,9 +1102,10 @@ const CheckOutPage = () => {
                                       minLength={3}
                                       // errMsg={`Phone Number cannot be blank, should have more than 3 characters and less than 10 characters!`}
                                       errFor={`Phone Number`}
-                                      regex={
-                                        /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
-                                      }
+                                      errMsg={phoneMsg}
+                                      // regex={
+                                      //   /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
+                                      // }
                                       label="Phone"
                                       {...register("shipping_address.phone", {
                                         required: "Phone is required",
@@ -309,6 +1114,11 @@ const CheckOutPage = () => {
                                       autoComplete="phone-number"
                                       errors={errors.shipping_address?.phone}
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={phone}
+                                      // setInputValue={setPhone}
                                     />
                                   </div>
                                 </div>
@@ -322,7 +1132,8 @@ const CheckOutPage = () => {
                                     <Input
                                       minLength={10}
                                       maxLength={100}
-                                      errMsg={`Address should have more than 10 characters and less than 100 characters!`}
+                                      // errMsg={`Address should have more than 10 characters and less than 100 characters!`}
+                                      errMsg={addressMsg}
                                       label="Address"
                                       {...register(
                                         "shipping_address.address_1",
@@ -336,6 +1147,11 @@ const CheckOutPage = () => {
                                       }
                                       placeholder="Enter Address"
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={address}
+                                      // setInputValue={setAddress}
                                     />
                                   </div>
 
@@ -343,7 +1159,8 @@ const CheckOutPage = () => {
                                     <Input
                                       minLength={3}
                                       maxLength={30}
-                                      errMsg={`City should have more than 3 characters and less than 30 characters!`}
+                                      // errMsg={`City should have more than 3 characters and less than 30 characters!`}
+                                      errMsg={cityMsg}
                                       label="City"
                                       {...register("shipping_address.city", {
                                         required: "City is required",
@@ -352,6 +1169,11 @@ const CheckOutPage = () => {
                                       errors={errors.shipping_address?.city}
                                       placeholder="City"
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={city}
+                                      // setInputValue={setCity}
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3 lg:col-span-2">
@@ -362,11 +1184,15 @@ const CheckOutPage = () => {
                                           required: "Country is required",
                                         }
                                       )}
+                                      errMsg={countryMsg}
                                       autoComplete="country"
                                       errors={
                                         errors.shipping_address?.country_code
                                       }
                                       touched={touchedFields}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3 lg:col-span-2">
@@ -374,7 +1200,8 @@ const CheckOutPage = () => {
                                       minLength={4}
                                       maxLength={5}
                                       // regex={/^\\d{5}(-{1}\\d{4})?$/}
-                                      errMsg={`Postal should have 4 to 5 digits!`}
+                                      // errMsg={`Postal should have 4 to 5 digits!`}
+                                      errMsg={postalMsg}
                                       // errFor={`Postal Code`}
                                       label="ZIP / Postal"
                                       {...register(
@@ -390,6 +1217,11 @@ const CheckOutPage = () => {
                                       }
                                       touched={touchedFields}
                                       errFor={`Postal Code`}
+                                      handleValueChange={(e: any) =>
+                                        handleValueChange(e)
+                                      }
+                                      // inputValue={postal}
+                                      // setInputValue={setPostal}
                                     />
                                   </div>
 
@@ -415,18 +1247,67 @@ const CheckOutPage = () => {
                                     </Link>
                                   </div>
                                   <div className="col-span-6 sm:col-span-3">
-                                    <button
-                                      className="  border  transition-all rounded py-3 text-center text-sm font-serif font-medium text-white flex justify-center w-full"
-                                      style={{ background: "#301B28" }}
-                                      onClick={handleSubmit(setAddresses)}
-
-                                      // disabled={isEmpty || !stripe || isCheckoutSubmit}
-                                    >
-                                      Choose Your Delivery Option
-                                      <span className="text-xl ml-2">
-                                        <IoArrowForward />
-                                      </span>
-                                    </button>
+                                    {!firstNameErr &&
+                                    !lastNameErr &&
+                                    !emailErr &&
+                                    !phoneErr &&
+                                    !addressErr &&
+                                    !cityErr &&
+                                    !postalErr &&
+                                    !countryErr ? (
+                                      <button
+                                        className="  border  transition-all rounded py-3 text-center text-sm font-serif font-medium text-white flex justify-center w-full"
+                                        style={{ background: "#301B28" }}
+                                        onClick={() => {
+                                          let shippingAdd = {
+                                            billing_address: {
+                                              address_1: "",
+                                              address_2: "",
+                                              city: "",
+                                              company: "",
+                                              country_code: "",
+                                              first_name: "",
+                                              last_name: "",
+                                              phone: "",
+                                              postal_code: "",
+                                              province: "",
+                                            },
+                                            email: email.value,
+                                            shipping_address: {
+                                              address_1: address.value,
+                                              address_2: "",
+                                              city: city.value,
+                                              company: "",
+                                              country_code: country.value,
+                                              first_name: firstName.value,
+                                              last_name: lastName.value,
+                                              phone: phone.value,
+                                              postal_code: postal.value,
+                                              province: "",
+                                            },
+                                          };
+                                          setAddresses(shippingAdd);
+                                        }}
+                                        // disabled={isEmpty || !stripe || isCheckoutSubmit}
+                                      >
+                                        Choose Your Delivery Option
+                                        <span className="text-xl ml-2">
+                                          <IoArrowForward />
+                                        </span>
+                                      </button>
+                                    ) : (
+                                      <button
+                                        className="  border  transition-all rounded py-3 text-center text-sm font-serif font-medium text-white flex justify-center w-full"
+                                        style={{ background: "#301B2850" }}
+                                        onClick={() => showError()}
+                                        // disabled={isEmpty || !stripe || isCheckoutSubmit}
+                                      >
+                                        Choose Your Delivery Option
+                                        <span className="text-xl ml-2">
+                                          <IoArrowForward />
+                                        </span>
+                                      </button>
+                                    )}
                                   </div>
                                 </div>
                                 {/* <Label label="Shipping Cost" />
@@ -827,4 +1708,5 @@ const CheckOutPage = () => {
   );
 };
 
-export default CheckOutPage; /* (() => Promise.resolve(Checkout), { ssr: false }); */
+export default CheckOutPage;
+/* (() => Promise.resolve(Checkout), { ssr: false }); */

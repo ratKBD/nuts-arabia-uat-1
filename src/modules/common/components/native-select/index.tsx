@@ -16,6 +16,10 @@ export type NativeSelectProps = {
   placeholder?: string;
   errors?: any;
   touched?: Record<string, unknown>;
+  handleValueChange?: any;
+  errMsg?: any;
+  // setCountry?: any
+  // setSelectedCountry?: any
 } & SelectHTMLAttributes<HTMLSelectElement>;
 
 // const styles = {
@@ -31,18 +35,20 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     {
       placeholder = "Select...",
       errors,
+      errMsg,
       touched,
       className,
       children,
+      handleValueChange,
       ...props
     },
     ref
   ) => {
     const innerRef = useRef<HTMLSelectElement>(null);
+    console.log("countryREf", innerRef.current?.value.length);
     const [isPlaceholder, setIsPlaceholder] = useState(false);
     const [borderColor, setBorderColor] = useState(false);
-
-    console.log("countryError", errors);
+    const [storeValue, setStoreValue] = useState<any>("empty");
 
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
@@ -52,15 +58,19 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     const hasError = props.name
       ? get(errors, props.name) && get(touched, props.name)
       : false;
-    console.log("hasError", hasError);
-
+    console.log("hasError-->", hasError);
+    console.log("error2", errors);
+    console.log("placeholder1", props);
+    console.log("children-->", children);
+    console.log("setStoreValue", storeValue);
     useEffect(() => {
-      if (innerRef.current && innerRef.current.value === "") {
+      // if (innerRef.current && innerRef.current.value === "") {
+      if (storeValue === "") {
         setIsPlaceholder(true);
       } else {
         setIsPlaceholder(false);
       }
-    }, [innerRef.current?.value]);
+    }, [/* innerRef.current?.value */ storeValue]);
 
     return (
       <div>
@@ -90,14 +100,26 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
           </select> */}
           <select
             // style={styles.select}
-            ref={innerRef}
-            {...props}
+            // ref={innerRef}
+            name="shipping_address.country_code"
+            // onChange={(e) => changeFunc(e)}
+            onChange={(e: any) => {
+              handleValueChange(e);
+              setStoreValue(e.target.value);
+              console.log("target Value", e.target.value);
+              // console.log("target Name", innerRef.current?.value)
+            }}
+            // {...props}
             style={{ border: "none", boxShadow: "none", height: "46px" }}
             className={`${
               props.disabled && "bg-gray-200 cursor-not-allowed"
             } appearance-none flex-1 bg-transparent text-sm opacity-75 rounded-md px-4 py-2.5 transition-colors duration-150 outline-none`}
           >
-            <option value="">{placeholder}</option>
+            {/* <option value="">{placeholder}</option> */}
+            <option value="" selected>
+              Select
+            </option>
+
             {children}
           </select>
           {/* <span className="absolute right-4 inset-y-0 flex items-center pointer-events-none">
@@ -117,11 +139,20 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             }}
           />
         )} */}
-        {placeholder === "Select" && (
+        {/* {innerRef.current?.value?.length !== 0 ? (
+          ""
+        ) : (
           <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
             <span>{errors?.message}</span>
           </div>
-        )}
+        )} */}
+
+        {hasError ||
+          (errMsg && (
+            <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
+              <span>{errMsg}</span>
+            </div>
+          ))}
       </div>
     );
   }
