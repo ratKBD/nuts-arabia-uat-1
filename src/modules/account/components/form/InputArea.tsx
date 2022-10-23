@@ -1,23 +1,24 @@
-import React, { useState, useEffect, useImperativeHandle } from "react"
-import Label from "./Label"
+import React, { useState, useEffect, useImperativeHandle } from "react";
+import Label from "./Label";
 export interface IInputAreaPropsProps {
-  register?: any
-  defaultValue?: any
-  name?: any
-  label?: any
-  type?: any
-  placeholder?: any
-  Icon?: any
-  value?: any
-  onChange?: any
-  minLength?: any
-  maxLength?: any
-  errMsg?: any
-  regex?: any
-  errFor?: any
-  setAState?: any
-  setInputValue?: any
-  inputValue?: any
+  register?: any;
+  defaultValue?: any;
+  name?: any;
+  label?: any;
+  type?: any;
+  placeholder?: any;
+  Icon?: any;
+  value?: any;
+  onChange?: any;
+  minLength?: any;
+  maxLength?: any;
+  errMsg?: any;
+  regex?: any;
+  errFor?: any;
+  setAState?: any;
+  setInputValue?: any;
+  inputValue?: any;
+  handleValueChange?: any;
 
   /* className?:any
   autoComplete?:any
@@ -44,6 +45,7 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
     setAState,
     setInputValue,
     inputValue,
+    handleValueChange,
   }: /* className,
     autoComplete,
     spellCheck,
@@ -55,7 +57,7 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
 
   // const [storeInput, setStoreInput] = useState<any>("")
 
-  let hasError: any
+  let hasError: any;
 
   /*   console.log("inputRef", inputRef?.current) */
   // console.log("inputChar", inputChar)
@@ -100,15 +102,15 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
               : "py-2 px-4 md:px-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none  h-11 md:h-12"
           }
           /*  ref={inputRef} */
-          value={inputValue}
+          // value={inputValue}
           onChange={(e) => {
-            setInputValue(e.target.value)
-            // setAState(e.target.value)
+            setInputValue(e.target.value);
+            handleValueChange(e);
           }}
         />
       </div>
 
-      {(hasError ||
+      {/* {(hasError ||
         inputValue?.length < minLength ||
         inputValue?.length > maxLength) && (
         <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
@@ -126,9 +128,16 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
         </div>
       ) : (
         ""
-      )}
-    </>
-  )
-}
+      )} */}
 
-export default InputArea
+      {hasError ||
+        (errMsg && (
+          <div className="pt-1 pl-2 text-rose-500 text-xsmall-regular">
+            <span>{errMsg}</span>
+          </div>
+        ))}
+    </>
+  );
+};
+
+export default InputArea;
