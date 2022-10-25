@@ -99,8 +99,9 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             <option>Lulu</option>
           </select> */}
           <select
+            disabled={props.disabled}
             // style={styles.select}
-            // ref={innerRef}
+            ref={innerRef}
             name="shipping_address.country_code"
             // onChange={(e) => changeFunc(e)}
             onChange={(e: any) => {
