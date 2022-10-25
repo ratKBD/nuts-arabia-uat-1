@@ -48,7 +48,7 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     console.log("countryREf", innerRef.current?.value.length);
     const [isPlaceholder, setIsPlaceholder] = useState(false);
     const [borderColor, setBorderColor] = useState(false);
-    const [storeValue, setStoreValue] = useState<any>("empty");
+    const [storeValue, setStoreValue] = useState<any>("");
 
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
