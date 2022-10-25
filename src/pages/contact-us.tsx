@@ -40,7 +40,7 @@ const ContactUs = () => {
     value: "",
   });
   const [inputChar, setInputChar] = useState<any>();
-  const [resetForm, setResetForm] = useState({
+  const [resetForm, setResetForm] = useState<any>({
     name: "",
     email: "",
     subject: "",
@@ -205,7 +205,7 @@ const ContactUs = () => {
       }
 
       case "subject": {
-        setName({
+        setSubject({
           subject: inputDetails.name,
           value: inputDetails.value,
         });
@@ -218,7 +218,7 @@ const ContactUs = () => {
           if (inputDetails.value.length < 3 || inputDetails.value.length > 15) {
             setSubjectErr(true);
             setSubjectMsgD(
-              "First Name should have more than 3 characters and less than 15 characters!"
+              "Subject should have more than 3 characters and less than 15 characters!"
             );
           }
         } else {
@@ -259,22 +259,22 @@ const ContactUs = () => {
 
   const showError = () => {
     console.log("fnCheck", name.value);
-    if (name.value.length === 0) {
+    if (name?.value?.length === 0) {
       setNameErr(true);
       setNameMsg("Name is required");
     } else setNameMsg(nameMsgD);
 
-    if (email.value.length === 0) {
+    if (email?.value?.length === 0) {
       setEmailErr(true);
       setEmailMsg("Email is required");
     } else setEmailMsg(emailMsgD);
 
-    if (subject.value.length === 0) {
+    if (subject?.value?.length === 0) {
       setSubjectErr(true);
       setSubjectMsg("Subject is required");
     } else setSubjectMsg(subjectMsgD);
 
-    if (message.value.length === 0) {
+    if (message?.value?.length === 0) {
       setMessageErr(true);
       setMessageMsg("Message is required");
     } else setMessageMsg(messageMsgD);
@@ -347,7 +347,7 @@ const ContactUs = () => {
                         type="text"
                         placeholder="Enter Your Name"
                         inputValue={name}
-                        setInputValue={setName}
+                        setInputValue={name}
                         errMsg={nameMsg}
                         handleValueChange={(e: any) => handleValueChange(e)}
                       />
@@ -365,7 +365,7 @@ const ContactUs = () => {
                         setAState={setEmail}
                         placeholder="Enter Your Email"
                         inputValue={email}
-                        setInputValue={setEmail}
+                        setInputValue={email}
                         errMsg={emailMsg}
                         handleValueChange={(e: any) => handleValueChange(e)}
                       />
@@ -383,7 +383,7 @@ const ContactUs = () => {
                       setAState={setSubject}
                       placeholder="Enter Your Subject"
                       inputValue={subject}
-                      setInputValue={setSubject}
+                      setInputValue={subject}
                       errMsg={subjectMsg}
                       handleValueChange={(e: any) => handleValueChange(e)}
                     />
@@ -404,7 +404,7 @@ const ContactUs = () => {
                       spellCheck="false"
                       rows={4}
                       placeholder="Write your message here"
-                      // value={message}
+                      value={message.value}
                       onChange={(e) => handleValueChange(e)}
                     ></textarea>
                     {messageMsg && (
@@ -442,6 +442,10 @@ const ContactUs = () => {
                           notifySuccess(
                             "your message sent successfully. We will contact you shortly."
                           );
+                          setName({ name: "", value: "" });
+                          setEmail({ email: "", value: "" });
+                          setSubject({ subject: "", value: "" });
+                          setMessage({ message: "", value: "" });
                         }}
                       >
                         {`Send Message`}
