@@ -1,52 +1,52 @@
-import { StoreGetProductsParams } from "@medusajs/medusa"
-import Head from "@modules/common/components/head"
-import Layout from "@modules/layout/templates"
-import AllProducts from "@modules/products/components/allProducts/AllProducts"
-import InfiniteProducts from "@modules/products/components/infinite-products"
-import ProductCard from "@modules/products/templates/theme/ProductCard"
-import RefinementList from "@modules/store/components/refinement-list"
-import { useContext, useEffect, useMemo, useState } from "react"
-import { NextPageWithLayout } from "types/global"
-import { useInfiniteQuery } from "react-query"
-import { fetchProductsList } from "@lib/data"
-import { useCart } from "medusa-react"
-import usePreviews from "@lib/hooks/use-previews"
-import Card from "@modules/common/components/cta-card/Card"
-import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel"
-import Skeleton from "react-loading-skeleton"
-import { CategoryContext } from "@lib/context/CategoryContext"
-import useFilter from "hooks/useFilter"
-import ApiService from "@services/ApiService"
-import StickyCart from "@modules/cart/templates/theme/StickyCart"
+import { StoreGetProductsParams } from "@medusajs/medusa";
+import Head from "@modules/common/components/head";
+import Layout from "@modules/layout/templates";
+import AllProducts from "@modules/products/components/allProducts/AllProducts";
+import InfiniteProducts from "@modules/products/components/infinite-products";
+import ProductCard from "@modules/products/templates/theme/ProductCard";
+import RefinementList from "@modules/store/components/refinement-list";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { NextPageWithLayout } from "types/global";
+import { useInfiniteQuery } from "react-query";
+import { fetchProductsList } from "@lib/data";
+import { useCart } from "medusa-react";
+import usePreviews from "@lib/hooks/use-previews";
+import Card from "@modules/common/components/cta-card/Card";
+import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel";
+import Skeleton from "react-loading-skeleton";
+import { CategoryContext } from "@lib/context/CategoryContext";
+import useFilter from "hooks/useFilter";
+import ApiService from "@services/ApiService";
+import StickyCart from "@modules/cart/templates/theme/StickyCart";
 
 const Store = () => {
-  const [params, setParams] = useState<StoreGetProductsParams>({})
-  const { cart } = useCart()
-  const { categoryItems } = useContext(CategoryContext)
-  const [allProduct, setAllProduct] = useState([])
+  const [params, setParams] = useState<StoreGetProductsParams>({});
+  const { cart } = useCart();
+  const { categoryItems } = useContext(CategoryContext);
+  const [allProduct, setAllProduct] = useState([]);
 
   const queryParams = useMemo(() => {
-    const p: StoreGetProductsParams = {}
+    const p: StoreGetProductsParams = {};
 
     if (cart?.id) {
-      p.cart_id = cart.id
+      p.cart_id = cart.id;
     }
 
-    p.is_giftcard = false
+    p.is_giftcard = false;
 
     return {
       ...p,
       ...params,
-    }
-  }, [cart?.id, params])
+    };
+  }, [cart?.id, params]);
 
   useEffect(() => {
     const getAllProductData = async () => {
-      const allProducts = await ApiService.getAllProduct()
-      setAllProduct(allProducts)
-    }
-    getAllProductData()
-  }, [])
+      const allProducts = await ApiService.getAllProduct();
+      setAllProduct(allProducts);
+    };
+    getAllProductData();
+  }, []);
 
   // const { data, hasNextPage, fetchNextPage, isLoading, isFetchingNextPage } =
   //   useInfiniteQuery(
@@ -57,7 +57,7 @@ const Store = () => {
   //     }
   //   )
   // const previews = usePreviews({ pages: data?.pages, region: cart?.region })
-  const { productData, setSortedField } = useFilter(allProduct)
+  const { productData, setSortedField } = useFilter(allProduct);
   // console.log("preview", previews)
 
   return (
@@ -124,6 +124,7 @@ const Store = () => {
                                     />
                                   ))
                                 : [1, 2, 3, 4, 5].map((productDetails: any) => (
+                                    // eslint-disable-next-line react/jsx-key
                                     <Skeleton height={278} width={212} />
                                   ))
                             }
@@ -140,9 +141,9 @@ const Store = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-Store.getLayout = (page: any) => <Layout>{page}</Layout>
+Store.getLayout = (page: any) => <Layout>{page}</Layout>;
 
-export default Store
+export default Store;

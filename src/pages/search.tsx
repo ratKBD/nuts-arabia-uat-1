@@ -1,30 +1,30 @@
-import StickyCart from "@modules/cart/templates/theme/StickyCart"
-import Card from "@modules/common/components/cta-card/Card"
-import Layout from "@modules/layout/templates"
-import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel"
-import ProductCard from "@modules/products/templates/theme/ProductCard"
-import ApiService from "@services/ApiService"
-import useFilter from "hooks/useFilter"
-import { filter } from "lodash"
-import Image from "next/image"
-import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
-import Skeleton from "react-loading-skeleton"
+import StickyCart from "@modules/cart/templates/theme/StickyCart";
+import Card from "@modules/common/components/cta-card/Card";
+import Layout from "@modules/layout/templates";
+import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel";
+import ProductCard from "@modules/products/templates/theme/ProductCard";
+import ApiService from "@services/ApiService";
+import useFilter from "hooks/useFilter";
+import { filter } from "lodash";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 const Search = () => {
-  const router = useRouter()
-  const { query } = router
+  const router = useRouter();
+  const { query } = router;
 
-  const [searchProduct, setSearchProduct] = useState<any>()
-  const { productData, setSortedField } = useFilter(searchProduct)
+  const [searchProduct, setSearchProduct] = useState<any>();
+  const { productData, setSortedField } = useFilter(searchProduct);
 
-  console.log("query--->", query)
+  console.log("query--->", query);
   useEffect(() => {
     async function getAllTypeData() {
-      const allProduct = await ApiService.getAllProduct()
+      const allProduct = await ApiService.getAllProduct();
       const filterData = allProduct.filter(
         (data: any) => data.collection !== null
-      )
+      );
 
       //   const searchProductUsing = filterData?.map((product: any) => {
       //     return [
@@ -40,11 +40,11 @@ const Search = () => {
       //   })
 
       //   let filteredSearch = searchProductUsing.toString()
-      console.log("queryinside--->", query.query)
+      console.log("queryinside--->", query.query);
       //   let searchQuery = filteredSearch.match(query.query)
 
       if (query.query) {
-        let searchParam: any = query.query
+        let searchParam: any = query.query;
         let finalSearchedProduct = filterData.filter((product: any) => {
           return (
             product.title.toLowerCase().includes(searchParam.toLowerCase()) ||
@@ -77,22 +77,22 @@ const Search = () => {
               )
               ?.includes(searchParam.toLowerCase())
             // ?.toLowerCase()
-          )
-        })
-        setSearchProduct(finalSearchedProduct)
-        console.log("searchProduct", searchProduct)
-        console.log("finalSearchedProduct", finalSearchedProduct)
+          );
+        });
+        setSearchProduct(finalSearchedProduct);
+        console.log("searchProduct", searchProduct);
+        console.log("finalSearchedProduct", finalSearchedProduct);
       }
 
-      console.log("filterData", filterData)
+      console.log("filterData", filterData);
 
       //   console.log("searchProductUsing", searchProductUsing)
       //   console.log("filteredSearch", filteredSearch)
       //   console.log("searchQuery", searchQuery)
     }
 
-    getAllTypeData()
-  }, [query.query])
+    getAllTypeData();
+  }, [query.query]);
 
   return (
     <>
@@ -161,9 +161,10 @@ const Search = () => {
                     ? searchProduct?.map((product: any, i: any) => {
                         return (
                           <ProductCard key={product.id} product={product} />
-                        )
+                        );
                       })
                     : [1, 2, 3, 4, 5].map((productDetails: any) => (
+                        // eslint-disable-next-line react/jsx-key
                         <Skeleton height={278} width={212} />
                       ))}
                 </div>
@@ -181,7 +182,7 @@ const Search = () => {
         </div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

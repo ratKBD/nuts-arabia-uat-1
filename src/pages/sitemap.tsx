@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react"
-import Layout from "@modules/layout/templates"
-import { ReactElement } from "react"
-import PageHeader from "@modules/products/components/header/PageHeader"
-import Link from "next/link"
-import { CategoryContext } from "@lib/context/CategoryContext"
+import React, { useContext, useState } from "react";
+import Layout from "@modules/layout/templates";
+import { ReactElement } from "react";
+import PageHeader from "@modules/products/components/header/PageHeader";
+import Link from "next/link";
+import { CategoryContext } from "@lib/context/CategoryContext";
 
 const SiteMap = () => {
-  const { categoryItems } = useContext(CategoryContext)
-  console.log("categoryItems sitemap-->", categoryItems)
+  const { categoryItems } = useContext(CategoryContext);
+  console.log("categoryItems sitemap-->", categoryItems);
   const [general, setGeneral] = useState<any>([
     { title: "Home Page", link: "/" },
     { title: "Store", link: "/store" },
@@ -18,7 +18,7 @@ const SiteMap = () => {
     { title: "Offers", link: "/offer" },
     { title: "Privacy Policy", link: "/privacy-policy" },
     { title: "Terms & Conditions", link: "/terms-and-conditions" },
-  ])
+  ]);
   return (
     <>
       <PageHeader title="Site Map" />
@@ -29,9 +29,12 @@ const SiteMap = () => {
           </div>
 
           <div className=" text-center max-w-screen-2xl px-3 sm:px-10  border-y-2 py-8 font-bold  ">
-            <h2 className="mb-4" style={{color:"#301B28"}}>GENERAL</h2>
-            <div className="flex flex-wrap justify-between" >
+            <h2 className="mb-4" style={{ color: "#301B28" }}>
+              GENERAL
+            </h2>
+            <div className="flex flex-wrap justify-between">
               {general?.map((generalObj: any, i: any) => (
+                // eslint-disable-next-line react/jsx-key
                 <div className="mx-6">
                   <Link href={generalObj.link}>
                     <a className="font-serif py-2 text-sm font-medium  text-red-900 hover:text-red-700 ">
@@ -43,7 +46,9 @@ const SiteMap = () => {
             </div>
           </div>
           <div className=" text-center max-w-screen-2xl px-7 sm:px-10 pb-10 border-b-2 py-8">
-            <h2 className="mb-4 font-bold " style={{color:"#301B28"}}>CATEGORIES</h2>
+            <h2 className="mb-4 font-bold " style={{ color: "#301B28" }}>
+              CATEGORIES
+            </h2>
             <div className="flex flex-wrap cursor-pointer">
               {categoryItems?.map((category: any, i: any) => (
                 <div className="mx-6" key={i + 1}>
@@ -57,7 +62,9 @@ const SiteMap = () => {
             </div>
           </div>
           <div className=" text-center max-w-screen-2xl px-7 sm:px-10 pb-10 border-b-2 py-8">
-            <h2 className="mb-4 font-bold " style={{color:"#301B28"}}>MANUFACTURERS</h2>
+            <h2 className="mb-4 font-bold " style={{ color: "#301B28" }}>
+              MANUFACTURERS
+            </h2>
             <div className="mx-6">
               <Link href="/store">
                 <a className="font-serif py-2 text-sm font-medium  text-red-900 hover:text-red-700">
@@ -69,15 +76,15 @@ const SiteMap = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 SiteMap.getLayout = (page: ReactElement) => {
   return (
     <Layout title="Contact Us" description="This is contact us page">
       {page}
     </Layout>
-  )
-}
+  );
+};
 
-export default SiteMap
+export default SiteMap;

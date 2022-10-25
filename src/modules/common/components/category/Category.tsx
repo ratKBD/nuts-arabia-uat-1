@@ -1,41 +1,42 @@
-import { fetchProductsList } from "@lib/data"
-import usePreviews from "@lib/hooks/use-previews"
-import { StoreGetProductsParams } from "@medusajs/medusa"
-import ApiService from "@services/ApiService"
-import { filter } from "lodash"
-import { useCart, useCollections } from "medusa-react"
-import Image from "next/image"
-import Link from "next/link"
-import React, { useContext, useEffect, useMemo, useState } from "react"
-import { IoBagCheckOutline, IoClose } from "react-icons/io5"
-import { useInfiniteQuery } from "react-query"
-import CategoryServices from "services/CategoryServices"
-import { NextPageWithLayout } from "types/global"
-import { SidebarContext } from "../context/SidebarContext"
-import Loading from "../preloader/Loading"
-import CategoryCard from "./CategoryCard"
-import { CategoryContext } from "@lib/context/CategoryContext"
-import Skeleton from "react-loading-skeleton"
-import { FiAlertCircle, FiGift, FiHelpCircle } from "react-icons/fi"
+import { fetchProductsList } from "@lib/data";
+import usePreviews from "@lib/hooks/use-previews";
+import { StoreGetProductsParams } from "@medusajs/medusa";
+import ApiService from "@services/ApiService";
+import { filter } from "lodash";
+import { useCart, useCollections } from "medusa-react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { IoBagCheckOutline, IoClose } from "react-icons/io5";
+import { useInfiniteQuery } from "react-query";
+import CategoryServices from "services/CategoryServices";
+import { NextPageWithLayout } from "types/global";
+import { SidebarContext } from "../context/SidebarContext";
+import Loading from "../preloader/Loading";
+import CategoryCard from "./CategoryCard";
+import { CategoryContext } from "@lib/context/CategoryContext";
+import Skeleton from "react-loading-skeleton";
+import { FiAlertCircle, FiGift, FiHelpCircle } from "react-icons/fi";
 import {
   HiOutlineDocumentText,
   HiOutlinePhoneIncoming,
   HiOutlineShieldCheck,
   HiOutlineUserGroup,
-} from "react-icons/hi"
+} from "react-icons/hi";
 
 const Category = () => {
-  const { categoryDrawerOpen, closeCategoryDrawer } = useContext(SidebarContext)
+  const { categoryDrawerOpen, closeCategoryDrawer } =
+    useContext(SidebarContext);
 
-  const { categoryItems } = useContext(CategoryContext)
+  const { categoryItems } = useContext(CategoryContext);
 
-  console.log("=========categoryItemsdropdown===>", categoryItems)
+  console.log("=========categoryItemsdropdown===>", categoryItems);
   // const { data, loading, error } = useAsync(() =>
   //   CategoryServices.getShowingCategory()
   // )
 
-  const [params, setParams] = useState<StoreGetProductsParams>({})
-  const { cart } = useCart()
+  const [params, setParams] = useState<StoreGetProductsParams>({});
+  const { cart } = useCart();
 
   const pages = [
     // {
@@ -83,22 +84,22 @@ const Category = () => {
     //   href: "/404",
     //   icon: FiAlertCircle,
     // },
-  ]
+  ];
 
   const queryParams = useMemo(() => {
-    const p: StoreGetProductsParams = {}
+    const p: StoreGetProductsParams = {};
 
     if (cart?.id) {
-      p.cart_id = cart.id
+      p.cart_id = cart.id;
     }
 
-    p.is_giftcard = false
+    p.is_giftcard = false;
 
     return {
       ...p,
       ...params,
-    }
-  }, [cart?.id, params])
+    };
+  }, [cart?.id, params]);
 
   const {
     data,
@@ -111,12 +112,12 @@ const Category = () => {
     {
       getNextPageParam: (lastPage) => lastPage.nextPage,
     }
-  )
+  );
   // const previews = usePreviews({ pages: data?.pages, region: cart?.region })
 
-  const { collections, isLoading } = useCollections()
+  const { collections, isLoading } = useCollections();
 
-  console.log("parents", collections)
+  console.log("parents", collections);
 
   // console.log("all", previews)
 
@@ -186,6 +187,7 @@ const Category = () => {
                   icon={data.icon }
                   nested={data.children}
                 /> */
+                // eslint-disable-next-line react/jsx-key
                 <div className="flex">
                   <div className="mr-3">
                     <Skeleton height={20} width={20} /* circle={true} */ />
@@ -248,6 +250,7 @@ const Category = () => {
                   icon={data.icon }
                   nested={data.children}
                 /> */
+                    // eslint-disable-next-line react/jsx-key
                     <div className="flex">
                       <div className="mr-3">
                         <Skeleton height={20} width={20} /* circle={true} */ />
@@ -260,7 +263,7 @@ const Category = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

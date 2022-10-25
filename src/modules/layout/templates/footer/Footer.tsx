@@ -1,15 +1,15 @@
-import React, { useContext } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import dynamic from "next/dynamic"
+import React, { useContext } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import dynamic from "next/dynamic";
 import {
   FacebookIcon,
   LinkedinIcon,
   PinterestIcon,
   TwitterIcon,
   WhatsappIcon,
-} from "react-share"
-import { CategoryContext } from "@lib/context/CategoryContext"
+} from "react-share";
+import { CategoryContext } from "@lib/context/CategoryContext";
 
 //internal import
 // import { UserContext } from '@context/UserContext';
@@ -18,7 +18,7 @@ const Footer = () => {
   //   const {
   //     state: { userInfo },
   //   } = useContext(UserContext);
-  const { categoryItems } = useContext(CategoryContext)
+  const { categoryItems } = useContext(CategoryContext);
 
   return (
     <div className="pb-16 lg:pb-0 xl:pb-0 " style={{ background: "#3B3B3B" }}>
@@ -32,7 +32,7 @@ const Footer = () => {
               Company
             </h3>
             <ul className="text-sm flex flex-col space-y-3">
-            <li className="flex items-baseline">
+              <li className="flex items-baseline">
                 <Link href="/sitemap">
                   <a
                     className=" inline-block w-full "
@@ -78,7 +78,7 @@ const Footer = () => {
                     className="text-gray-600 inline-block w-full "
                     style={{ color: "#D9D9D9" }}
                   >
-                   Terms & Conditions
+                    Terms & Conditions
                   </a>
                 </Link>
               </li>
@@ -88,11 +88,10 @@ const Footer = () => {
                     className="text-gray-600 inline-block w-full "
                     style={{ color: "#D9D9D9" }}
                   >
-                   About Us
+                    About Us
                   </a>
                 </Link>
               </li>
-              
             </ul>
           </div>
           <div className="pb-3.5 sm:pb-0 col-span-1 md:col-span-2 lg:col-span-3">
@@ -121,6 +120,7 @@ const Footer = () => {
             </ul> */}
             {categoryItems &&
               categoryItems?.map((category: any, i: any) => (
+                // eslint-disable-next-line react/jsx-key
                 <ul className="text-sm lg:text-15px flex flex-col space-y-3">
                   <li className="flex items-baseline">
                     <Link href={`/collections/${category.collection_id}`}>
@@ -209,8 +209,13 @@ const Footer = () => {
               <br />
               <span>Tel: +97143990014</span>
               <br />
-              <span className="sm:block hidden">Email: customercare@nutsarabia.com</span>
-              <span className="sm:hidden block">Email: customercare <span className="ml-5">@nutsarabia.com</span></span>
+              <span className="sm:block hidden">
+                Email: customercare@nutsarabia.com
+              </span>
+              <span className="sm:hidden block">
+                Email: customercare{" "}
+                <span className="ml-5">@nutsarabia.com</span>
+              </span>
             </p>
           </div>
         </div>
@@ -325,7 +330,7 @@ const Footer = () => {
         </p>
       </div> */}
     </div>
-  )
-}
+  );
+};
 
-export default dynamic(() => Promise.resolve(Footer), { ssr: false })
+export default dynamic(() => Promise.resolve(Footer), { ssr: false });

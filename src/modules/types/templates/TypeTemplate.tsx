@@ -1,42 +1,42 @@
-import { useAllProduct } from "@lib/context/all-product-context"
-import Card from "@modules/common/components/cta-card/Card"
-import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel"
-import ProductCard from "@modules/products/templates/theme/ProductCard"
-import ApiService from "@services/ApiService"
-import useFilter from "hooks/useFilter"
-import React, { useEffect, useState } from "react"
-import Skeleton from "react-loading-skeleton"
+import { useAllProduct } from "@lib/context/all-product-context";
+import Card from "@modules/common/components/cta-card/Card";
+import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel";
+import ProductCard from "@modules/products/templates/theme/ProductCard";
+import ApiService from "@services/ApiService";
+import useFilter from "hooks/useFilter";
+import React, { useEffect, useState } from "react";
+import Skeleton from "react-loading-skeleton";
 
 type TypeTemplateProps = {
-  type: any
-}
+  type: any;
+};
 
 const TypeTemplate: React.FC<TypeTemplateProps> = ({ type }) => {
-  const { allProduct, setAllProduct } = useAllProduct()
-  const [showableData, setShowableData] = useState<any>([])
-  const { productData, setSortedField } = useFilter(showableData)
-  console.log("type", type)
+  const { allProduct, setAllProduct } = useAllProduct();
+  const [showableData, setShowableData] = useState<any>([]);
+  const { productData, setSortedField } = useFilter(showableData);
+  console.log("type", type);
   useEffect(() => {
-    console.log("inUseEfeect", type)
+    console.log("inUseEfeect", type);
     const getAllProductData = async () => {
-      const allProducts = await ApiService.getAllProduct()
-      console.log("allProd", allProducts)
+      const allProducts = await ApiService.getAllProduct();
+      console.log("allProd", allProducts);
       let selectedProductType = allProducts?.filter((product: any) => {
         console.log(
           "condition->>>>",
           product.type_id === type[0].typeId,
           product.type_id,
           type[0].typeId
-        )
-        return product.type_id === type[0].typeId
-      })
-      console.log("selectedType", selectedProductType)
+        );
+        return product.type_id === type[0].typeId;
+      });
+      console.log("selectedType", selectedProductType);
       if (selectedProductType && selectedProductType.length > 0) {
-        setShowableData(selectedProductType)
+        setShowableData(selectedProductType);
       }
-    }
-    getAllProductData()
-  }, [type[0].typeId])
+    };
+    getAllProductData();
+  }, [type[0].typeId]);
 
   return (
     <div className="mx-auto max-w-screen-2xl px-3 sm:px-10">
@@ -101,6 +101,7 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({ type }) => {
                                   />
                                 ))
                               : [1, 2, 3, 4, 5].map((productDetails: any) => (
+                                  // eslint-disable-next-line react/jsx-key
                                   <Skeleton height={278} width={212} />
                                 ))
                           }
@@ -116,7 +117,7 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({ type }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TypeTemplate
+export default TypeTemplate;

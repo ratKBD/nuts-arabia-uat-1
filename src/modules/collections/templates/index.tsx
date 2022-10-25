@@ -1,64 +1,64 @@
-import { useAllProduct } from "@lib/context/all-product-context"
-import usePreviews from "@lib/hooks/use-previews"
-import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons"
-import repeat from "@lib/util/repeat"
-import Card from "@modules/common/components/cta-card/Card"
-import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel"
-import ProductPreview from "@modules/products/components/product-preview"
-import ProductCard from "@modules/products/templates/theme/ProductCard"
-import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview"
-import { fetchCollectionProducts } from "@pages/collections/[id]"
-import ApiService from "@services/ApiService"
-import useFilter from "hooks/useFilter"
-import { filter } from "lodash"
-import { useCart } from "medusa-react"
-import React, { useEffect, useState } from "react"
-import { useInView } from "react-intersection-observer"
-import Skeleton from "react-loading-skeleton"
-import { useInfiniteQuery } from "react-query"
+import { useAllProduct } from "@lib/context/all-product-context";
+import usePreviews from "@lib/hooks/use-previews";
+import getNumberOfSkeletons from "@lib/util/get-number-of-skeletons";
+import repeat from "@lib/util/repeat";
+import Card from "@modules/common/components/cta-card/Card";
+import CategoryCarousel from "@modules/products/components/carousel/CategoryCarousel";
+import ProductPreview from "@modules/products/components/product-preview";
+import ProductCard from "@modules/products/templates/theme/ProductCard";
+import SkeletonProductPreview from "@modules/skeletons/components/skeleton-product-preview";
+import { fetchCollectionProducts } from "@pages/collections/[id]";
+import ApiService from "@services/ApiService";
+import useFilter from "hooks/useFilter";
+import { filter } from "lodash";
+import { useCart } from "medusa-react";
+import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
+import Skeleton from "react-loading-skeleton";
+import { useInfiniteQuery } from "react-query";
 
 type CollectionTemplateProps = {
   collection: {
-    id: string
-    title: string
-  }
-}
+    id: string;
+    title: string;
+  };
+};
 
 const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
   collection,
 }) => {
-  const { cart } = useCart()
-  const { ref, inView } = useInView()
-  const { allProduct, setAllProduct } = useAllProduct()
-  const [showableData, setShowableData] = useState<any>([])
-  const { productData, setSortedField } = useFilter(showableData)
+  const { cart } = useCart();
+  const { ref, inView } = useInView();
+  const { allProduct, setAllProduct } = useAllProduct();
+  const [showableData, setShowableData] = useState<any>([]);
+  const { productData, setSortedField } = useFilter(showableData);
 
   useEffect(() => {
-    let filteredCollectionProduct: any
+    let filteredCollectionProduct: any;
     const getAllProductData = async () => {
-      const allProducts = await ApiService.getAllProduct()
-      console.log("testPro", allProduct)
+      const allProducts = await ApiService.getAllProduct();
+      console.log("testPro", allProduct);
       if (allProducts?.length > 0) {
-        setAllProduct(allProducts)
+        setAllProduct(allProducts);
         filteredCollectionProduct = allProducts?.filter((product: any) => {
-          return product.collection_id === collection.id
-        })
+          return product.collection_id === collection.id;
+        });
 
-        setShowableData(filteredCollectionProduct)
+        setShowableData(filteredCollectionProduct);
       }
-    }
+    };
 
     if (allProduct && allProduct.length > 0) {
       filteredCollectionProduct = allProduct.filter((product: any) => {
-        return product.collection_id === collection.id
-      })
-      setShowableData(filteredCollectionProduct)
+        return product.collection_id === collection.id;
+      });
+      setShowableData(filteredCollectionProduct);
     } else {
-      getAllProductData()
+      getAllProductData();
     }
 
-    console.log("filteredCollectionProduct", filteredCollectionProduct)
-  }, [collection.id])
+    console.log("filteredCollectionProduct", filteredCollectionProduct);
+  }, [collection.id]);
 
   const {
     data: infiniteData,
@@ -77,22 +77,22 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
     {
       getNextPageParam: (lastPage) => lastPage.nextPage,
     }
-  )
-  console.log("specificData", infiniteData)
+  );
+  console.log("specificData", infiniteData);
 
   const previews = usePreviews({
     pages: infiniteData?.pages,
     region: cart?.region,
-  })
+  });
 
   useEffect(() => {
     if (inView && hasNextPage) {
-      fetchNextPage()
+      fetchNextPage();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inView, hasNextPage])
+  }, [inView, hasNextPage]);
 
-  console.log("showableData", showableData)
+  console.log("showableData", showableData);
   return (
     // <div className="content-container py-6">
     //   <div className="mb-8 text-2xl-semi">
@@ -185,7 +185,11 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                                   />
                                 ))
                               : [1, 2, 3, 4, 5].map((productDetails: any) => (
-                                  <Skeleton height={278} width={212} />
+                                  <Skeleton
+                                    key={productDetails.id}
+                                    height={278}
+                                    width={212}
+                                  />
                                 ))
                           }
                         </div>
@@ -200,7 +204,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CollectionTemplate
+export default CollectionTemplate;
