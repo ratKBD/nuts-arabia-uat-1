@@ -102,7 +102,7 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
               : "py-2 px-4 md:px-5 w-full appearance-none border text-sm opacity-75 text-input rounded-md placeholder-body min-h-12 transition duration-200 focus:ring-0 ease-in-out bg-white border-gray-200 focus:outline-none  h-11 md:h-12"
           }
           /*  ref={inputRef} */
-          value={setInputValue.value}
+          value={setInputValue?.value}
           onChange={(e) => {
             // setInputValue(e.target.value)
             handleValueChange(e);
