@@ -12,7 +12,7 @@ const Login: NextPageWithLayout = () => {
   );
 };
 
-Login.getLayout = (page) => {
+Login.getLayout = (page: any) => {
   return <Layout>{page}</Layout>;
 };
 
