@@ -104,6 +104,7 @@ const InputArea: React.FC<IInputAreaPropsProps> = (
           /*  ref={inputRef} */
           value={setInputValue.value}
           onChange={(e) => {
+            // setInputValue(e.target.value)
             handleValueChange(e);
           }}
         />
