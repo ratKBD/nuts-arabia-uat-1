@@ -18,6 +18,10 @@ export type NativeSelectProps = {
   touched?: Record<string, unknown>;
   handleValueChange?: any;
   errMsg?: any;
+  storeValue?: any;
+  setStoreValue?: any;
+  countryOptions?: any;
+  setCountryValue?: any;
   // setCountry?: any
   // setSelectedCountry?: any
 } & SelectHTMLAttributes<HTMLSelectElement>;
@@ -40,6 +44,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
       className,
       children,
       handleValueChange,
+      storeValue,
+      setStoreValue,
+      countryOptions,
+      setCountryValue,
       ...props
     },
     ref
@@ -48,7 +56,6 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     console.log("countryREf", innerRef.current?.value.length);
     const [isPlaceholder, setIsPlaceholder] = useState(false);
     const [borderColor, setBorderColor] = useState(false);
-    const [storeValue, setStoreValue] = useState<any>("");
 
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
@@ -58,11 +65,13 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     const hasError = props.name
       ? get(errors, props.name) && get(touched, props.name)
       : false;
+
     console.log("hasError-->", hasError);
     console.log("error2", errors);
     console.log("placeholder1", props);
     console.log("children-->", children);
     console.log("setStoreValue", storeValue);
+
     useEffect(() => {
       // if (innerRef.current && innerRef.current.value === "") {
       if (storeValue === "") {
@@ -99,15 +108,27 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             <option>Lulu</option>
           </select> */}
           <select
+            placeholder="Select"
             disabled={props.disabled}
             // style={styles.select}
-            ref={innerRef}
+            // ref={innerRef}
+            // key={}
+            // value={storeValue}
             name="shipping_address.country_code"
-            // onChange={(e) => changeFunc(e)}
             onChange={(e: any) => {
               handleValueChange(e);
-              setStoreValue(e.target.value);
-              console.log("target Value", e.target.value);
+              let findData = countryOptions.filter((f: any) =>
+                e.target.value.includes(f.value)
+              );
+              console.log(
+                "countryOptions1",
+                countryOptions,
+                findData,
+                e.target.value
+              );
+              setStoreValue(findData[0]?.label);
+              setCountryValue(e.target.value);
+              console.log("target Value", e);
               // console.log("target Name", innerRef.current?.value)
             }}
             // {...props}
@@ -117,12 +138,10 @@ const NativeSelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
             } appearance-none flex-1 bg-transparent text-sm opacity-75 rounded-md px-4 py-2.5 transition-colors duration-150 outline-none`}
           >
             {/* <option value="">{placeholder}</option> */}
-            <option value="" selected>
-              Select
-            </option>
 
             {children}
           </select>
+
           {/* <span className="absolute right-4 inset-y-0 flex items-center pointer-events-none">
             <ChevronDown />
           </span> */}

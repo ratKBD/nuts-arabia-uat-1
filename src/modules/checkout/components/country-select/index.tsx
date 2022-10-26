@@ -14,7 +14,7 @@ import {
 const CountrySelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
   ({ placeholder = "Select", ...props }, ref): any => {
     const innerRef = useRef<HTMLSelectElement>(null);
-
+    const [storeValue, setStoreValue] = useState<any>("sa");
     // console.log("error5", errors)
     useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
       ref,
@@ -46,9 +46,20 @@ const CountrySelect = forwardRef<HTMLSelectElement, NativeSelectProps>(
     console.log("countryRef", innerRef?.current?.value);
 
     return (
-      <NativeSelect ref={innerRef} placeholder={placeholder} {...props}>
+      <NativeSelect
+        ref={innerRef}
+        placeholder={placeholder}
+        storeValue={storeValue}
+        setStoreValue={setStoreValue}
+        countryOptions={countryOptions}
+        {...props}
+      >
         {countryOptions.map(({ value, label }, index) => (
-          <option key={index} value={value}>
+          <option
+            key={label}
+            value={value}
+            // onClick={(e) => console.log("key", e)}
+          >
             {label}
           </option>
         ))}

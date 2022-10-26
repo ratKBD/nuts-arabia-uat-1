@@ -69,6 +69,9 @@ const CheckOutPage = () => {
   // console.log("displayPaymentMethod", setDisplayPaymentMethod)
   const [showCard, setShowCard] = useState<any>(false);
   const [modalOpen, setModalOpen] = useState<any>(false);
+  const [countryValue, setCountryValue] = useState<any>("sa");
+
+  console.log("setCountryValue", countryValue);
 
   const [value, setValue] = useState<any>({
     firstName: "",
@@ -79,10 +82,6 @@ const CheckOutPage = () => {
     city: "",
     postal: "",
   });
-
-  var submitBtnProps = {
-    onclick: handleSubmit(setAddresses),
-  };
 
   const [err, setErr] = useState<any>({
     firstName: "",
@@ -809,32 +808,33 @@ const CheckOutPage = () => {
         break;
       }
 
-      case "shipping_address.country_code": {
-        // let eMsg:any
-        // let error:any = false
-        // validation
-        setCountry({
-          name: inputDetails.name,
-          value: inputDetails.value,
-        });
-        console.log("countryyyy", inputDetails.value);
-        if (inputDetails /* .value.trim() */) {
-          setCountryMsgD("");
-          setCountryMsg("");
-          setCountryErr(false);
-          console.log("errs city", cityErr);
-          if (inputDetails.value.length === 0) {
-            console.log("country is empty");
-            setCountryErr(true);
-            setCountryMsgD("Country is required");
-          }
-        }
-        // console.log("checkError ci", err)
-        // setErr({ ...err, city: /* eMsg */ cityMsg })
-        // let temp: any = validationSuccess && !error
-        // setValidationSuccess(temp)
-        break;
-      }
+      // case "shipping_address.country_code": {
+      //   // let eMsg:any
+      //   // let error:any = false
+      //   // validation
+      //   setCountry({
+      //     name: inputDetails.name,
+      //     // value: inputDetails.value,
+      //     value: inputDetails,
+      //   })
+      //   console.log("countryyyy", inputDetails.value)
+      //   if (inputDetails /* .value.trim() */) {
+      //     setCountryMsgD("")
+      //     setCountryMsg("")
+      //     setCountryErr(false)
+      //     console.log("errs city", cityErr)
+      //     if (inputDetails.value.length === 0) {
+      //       console.log("country is empty")
+      //       setCountryErr(true)
+      //       setCountryMsgD("Country is required")
+      //     }
+      //   }
+      //   // console.log("checkError ci", err)
+      //   // setErr({ ...err, city: /* eMsg */ cityMsg })
+      //   // let temp: any = validationSuccess && !error
+      //   // setValidationSuccess(temp)
+      //   break
+      // }
 
       case "shipping_address.postal_code": {
         // let eMsg:any
@@ -924,10 +924,10 @@ const CheckOutPage = () => {
       setPostalMsg("postal is required");
     } else setPostalMsg(postalMsgD);
 
-    if (country.value.length === 0) {
-      setCountryErr(true);
-      setCountryMsg("Country is required");
-    } else setCountryMsg(countryMsgD);
+    // if (country.value.length === 0) {
+    //   setCountryErr(true)
+    //   setCountryMsg("Country is required")
+    // } else setCountryMsg(countryMsgD)
 
     // console.log("country.value", country.value)
   };
@@ -1193,6 +1193,7 @@ const CheckOutPage = () => {
                                       handleValueChange={(e: any) =>
                                         handleValueChange(e)
                                       }
+                                      setCountryValue={setCountryValue}
                                     />
                                   </div>
                                   <div className="col-span-6 sm:col-span-3 lg:col-span-2">
@@ -1253,8 +1254,8 @@ const CheckOutPage = () => {
                                     !phoneErr &&
                                     !addressErr &&
                                     !cityErr &&
-                                    !postalErr &&
-                                    !countryErr ? (
+                                    !postalErr /* &&
+                                    !countryErr */ ? (
                                       <button
                                         className="  border  transition-all rounded py-3 text-center text-sm font-serif font-medium text-white flex justify-center w-full"
                                         style={{ background: "#301B28" }}
@@ -1278,7 +1279,8 @@ const CheckOutPage = () => {
                                               address_2: "",
                                               city: city.value,
                                               company: "",
-                                              country_code: country.value,
+                                              // country_code: country.value,
+                                              country_code: countryValue,
                                               first_name: firstName.value,
                                               last_name: lastName.value,
                                               phone: phone.value,

@@ -156,7 +156,7 @@ const ContactUs = () => {
         });
 
         console.log("valueCheck--->", inputDetails.value);
-        if (inputDetails.value) {
+        if (inputDetails.value.trim()) {
           setNameMsgD("");
           setNameMsg("");
           setNameErr(false);
@@ -184,7 +184,7 @@ const ContactUs = () => {
           value: inputDetails.value,
         });
         console.log("mailCheck", inputDetails.value);
-        if (inputDetails.value.trim()) {
+        if (inputDetails.value) {
           setEmailMsgD("");
           setEmailMsg("");
           setEmailErr(false);
@@ -430,22 +430,53 @@ const ContactUs = () => {
                         className="md:text-sm leading-4 inline-flex items-center cursor-pointer transition ease-in-out duration-300 font-semibold text-center justify-center border-0 border-transparent rounded-md placeholder-white focus-visible:outline-none focus:outline-none  text-white px-5 md:px-6 lg:px-8 py-3 md:py-3.5 lg:py-3 hover:text-white  h-12 mt-1 text-sm lg:text-base w-full sm:w-auto "
                         style={{ background: "#301B28" }}
                         onClick={() => {
-                          let contactDetails = {
-                            contact_details: {
-                              name: name.value,
-                              email: email.value,
-                              subject: subject.value,
-                              message: message.value,
-                            },
-                          };
-                          console.log("contactDetails", contactDetails);
-                          notifySuccess(
-                            "your message sent successfully. We will contact you shortly."
-                          );
-                          setName({ name: "", value: "" });
-                          setEmail({ email: "", value: "" });
-                          setSubject({ subject: "", value: "" });
-                          setMessage({ message: "", value: "" });
+                          // let contactDetails = {
+                          //   contact_details: {
+                          //     name: name.value,
+                          //     email: email.value,
+                          //     subject: subject.value,
+                          //     message: message.value,
+                          //   },
+                          // }
+                          // console.log("contactDetails", contactDetails)
+                          //   notifySuccess(
+                          //     "your message sent successfully. We will contact you shortly."
+                          //   )
+
+                          // setName({ name: "", value: "" })
+                          // setEmail({ email: "", value: "" })
+                          // setSubject({ subject: "", value: "" })
+                          // setMessage({ message: "", value: "" })
+
+                          console.log("nameLength", name.value.length);
+                          if (
+                            name.value.length === 0 ||
+                            email.value.length === 0 ||
+                            subject.value.length === 0 ||
+                            message.value.length === 0
+                          ) {
+                            notifyError(
+                              "Please fill the contact form before sending."
+                            );
+                          } else {
+                            let contactDetails = {
+                              contact_details: {
+                                name: name.value,
+                                email: email.value,
+                                subject: subject.value,
+                                message: message.value,
+                              },
+                            };
+                            console.log("contactDetails", contactDetails);
+                            notifySuccess(
+                              "your message sent successfully. We will contact you shortly."
+                            );
+
+                            setName({ name: "", value: "" });
+                            setEmail({ email: "", value: "" });
+                            setSubject({ subject: "", value: "" });
+                            setMessage({ message: "", value: "" });
+                          }
                         }}
                       >
                         {`Send Message`}
