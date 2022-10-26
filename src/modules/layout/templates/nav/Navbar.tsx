@@ -26,11 +26,11 @@ const Navbar = () => {
   let cartLength: any;
 
   useEffect(() => {
-    cartLength = items.length;
+    cartLength = items?.length;
     setCartItemLength(cartLength);
   }, [items]);
 
-  console.log("itemLength---->", items.length);
+  // console.log("itemLength---->", items.length);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
