@@ -21,6 +21,14 @@ const Navbar = () => {
   const { cart, totalItems } = useCart();
   const router = useRouter();
   const items: any = useEnrichedLineItems();
+  const [cartItemLength, setCartItemLength] = useState<any>("");
+
+  let cartLength: any;
+
+  useEffect(() => {
+    cartLength = items.length;
+    setCartItemLength(cartLength);
+  }, [items]);
 
   console.log("itemLength---->", items.length);
 
@@ -101,7 +109,8 @@ const Navbar = () => {
               >
                 <span className="absolute z-10 top-0 right-0 inline-flex items-center justify-center p-1 h-5 w-5 text-xs font-medium leading-none text-red-100 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
                   {/* {totalItems} */}
-                  {items.length}
+                  {/* {items && items.length} */}
+                  {cartItemLength}
                 </span>
                 <FiShoppingCart className="w-6 h-6 drop-shadow-xl" />
               </button>
