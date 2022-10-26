@@ -1,38 +1,40 @@
-import { useContext, useEffect, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import dynamic from "next/dynamic"
-import { useRouter } from "next/router"
-import { IoSearchOutline } from "react-icons/io5"
-import { FiShoppingCart, FiUser, FiBell } from "react-icons/fi"
-import NavbarPromo from "./NavbarPromo"
-import { SidebarContext } from "@modules/common/components/context/SidebarContext"
-import CartDrawer from "@modules/layout/components/drawer/CartDrawer"
-import LoginModal from "@modules/common/components/modal/LoginModal"
-import { useCart } from "medusa-react"
+import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import { IoSearchOutline } from "react-icons/io5";
+import { FiShoppingCart, FiUser, FiBell } from "react-icons/fi";
+import NavbarPromo from "./NavbarPromo";
+import { SidebarContext } from "@modules/common/components/context/SidebarContext";
+import CartDrawer from "@modules/layout/components/drawer/CartDrawer";
+import LoginModal from "@modules/common/components/modal/LoginModal";
+import { useCart } from "medusa-react";
+import useEnrichedLineItems from "@lib/hooks/use-enrich-line-items";
 
 const Navbar = () => {
-  const [imageUrl, setImageUrl] = useState("")
-  const [searchText, setSearchText] = useState("")
-  const [modalOpen, setModalOpen] = useState(false)
-  const { toggleCartDrawer } = useContext(SidebarContext)
+  const [imageUrl, setImageUrl] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const { toggleCartDrawer } = useContext(SidebarContext);
   // const { totalItems } = useCart()
-  const { cart, totalItems } = useCart()
-  const router = useRouter()
+  const { cart, totalItems } = useCart();
+  const router = useRouter();
+  const items: any = useEnrichedLineItems();
 
-  console.log("useCart", cart)
+  console.log("itemLength---->", items.length);
 
   const handleSubmit = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     if (searchText) {
-      router.push(`/search?query=${searchText}` /* null, { scroll: false } */)
-      setSearchText("")
+      router.push(`/search?query=${searchText}` /* null, { scroll: false } */);
+      setSearchText("");
     } else {
-      router.push(`/ ` /* null, { scroll: false } */)
-      setSearchText("")
+      router.push(`/ ` /* null, { scroll: false } */);
+      setSearchText("");
     }
-    console.log("searchText", searchText)
-  }
+    console.log("searchText", searchText);
+  };
 
   return (
     <>
@@ -40,7 +42,7 @@ const Navbar = () => {
       {modalOpen && (
         <LoginModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
       )}
-      <div className="sticky top-0 z-20" style={{background:"#592316"}}>
+      <div className="sticky top-0 z-20" style={{ background: "#592316" }}>
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10">
           <div className="top-bar h-16 lg:h-auto flex items-center justify-between py-4 mx-auto">
             <Link href="/">
@@ -98,7 +100,8 @@ const Navbar = () => {
                 className="relative px-5 text-white text-2xl font-bold"
               >
                 <span className="absolute z-10 top-0 right-0 inline-flex items-center justify-center p-1 h-5 w-5 text-xs font-medium leading-none text-red-100 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
-                  {totalItems}
+                  {/* {totalItems} */}
+                  {items.length}
                 </span>
                 <FiShoppingCart className="w-6 h-6 drop-shadow-xl" />
               </button>
@@ -142,6 +145,6 @@ const Navbar = () => {
         <NavbarPromo />
       </div>
     </>
-  )
-}
-export default dynamic(() => Promise.resolve(Navbar), { ssr: false })
+  );
+};
+export default dynamic(() => Promise.resolve(Navbar), { ssr: false });
